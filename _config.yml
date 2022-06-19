@@ -1,3 +1,9 @@
 remote_theme: daviddarnes/garth
 title: "Mikhail Ilin web log"
 url: "https://ilin.pw"
+
+collections:
+  posts:
+    title: Blog # Needed for Siteleaf
+    output: true
+    description: "This is merely a demo, find out more [about Garth](about)" # The post list page content
