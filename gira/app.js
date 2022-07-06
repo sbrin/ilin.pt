@@ -2,6 +2,16 @@ const GIRA_URL = 'https://emel.city-platform.com/maps/wfs?SERVICE=wfs&REQUEST=Ge
 const INTERVAL = 30000;
 
 Vue.createApp({
+    template: `
+        <div>
+            <span @click="toggleAlarm" class="gira-button" title="Toggle alarm"> {{ alarm ? "🔔" : "🔕" }} </span>
+        </div>
+        <div v-show="alarm">
+            <h1>I need <input class="gira-input-number" type="number" v-model="min_bikes"/> bike(s)</h1>
+        </div>
+        <h1>Available: {{ bikes }}</h1>
+        <div>{{ isLoaded ? bikes ? bikesAvailable : "😵" : "Loading..." }}</div>
+    `,
     data() {
         return {
             isLoaded: false,
@@ -55,46 +65,4 @@ Vue.createApp({
             this.fetchGira()
         }, INTERVAL);
     },
-    template: `
-        <div>
-            <span @click="toggleAlarm"> {{ alarm ? "🔔" : "🔕" }} </span>
-        </div>
-        <div v-show="alarm">
-            <h1>I need:</h1>
-            <span @click="decrement"> – </span>
-            <span> {{ min_bikes }} </span>
-            <span @click="increment"> + </span>
-        </div>
-        <h1>Available:</h1>
-        <div>{{ isLoaded ? bikes ? bikesAvailable : 0 : "Loading..." }}</div>
-    `
 }).mount("#gira_app");
-
-// function createContent() {
-//     const _result = document.createElement("p");
-//     _result.style.fontSize = "12rem";
-//     _result.style.padding = "12rem 0";
-//     _result.style.textAlign = "center";
-//     _result.innerText = `Loading... 🚲`;
-//     document.getElementById("gira_app").appendChild(_result);
-//     return _result;
-// }
-
-// function fetchGira(container) {
-//     fetch(GIRA_URL)
-//         .then((result) => result.json())
-//         .then((json) => {
-//             const {
-//                 properties
-//             } = json.features[0];
-//             container.innerText = `${properties.num_bicicletas} 🚲`;
-//         });
-// }
-
-// const container = createContent();
-
-// fetchGira(container);
-
-// setInterval(() => {
-//     fetchGira(container);
-// }, 30000);
