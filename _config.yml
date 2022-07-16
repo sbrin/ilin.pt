@@ -15,37 +15,47 @@ github_username:  sbrin
 # theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-paginate
 
 # Pagination
-paginate: 5
+paginate: 10
 paginate_path: blog/page:num
 
 collections:
-  # posts:
-  #   title: Blog # Needed for Siteleaf
-  #   output: true
-  #   description: "This is merely a demo, find out more [about Garth](about)" # The post list page content
-  # stuff:
-  #   title: Stuff
-  #   output: true
-  #   description: "Some stuff I made"
+  posts:
+    title: 🏡 # Needed for Siteleaf
+    output: true
+    description: "This is merely a demo, find out more [about Garth](about)" # The post list page content
+  stuff:
+    title: Stuff
+    output: true
+    description: "Some stuff I made"
 
-# Exclude from processing.
-# The following items will not be processed, by default.
-# Any item listed under the `exclude:` key here will be automatically added to
-# the internal "default list".
-#
-# Excluded items can be processed by explicitly listing the directories or
-# their entries' file path in the `include:` list.
-#
-# exclude:
-#   - .sass-cache/
-#   - .jekyll-cache/
-#   - gemfiles/
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules/
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
+# defaults:
+#   -
+#     scope:
+#       path: ""
+#       type: pages
+#     values:
+#       layout: page # Default layout
+#   -
+#     scope:
+#       path: ""
+#       type: posts
+#     values:
+#       layout: post # Default layout
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+
+webrick:
+  headers:
+    Content-Security-Policy: "default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';"
