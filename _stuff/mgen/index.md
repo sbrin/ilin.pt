@@ -36,9 +36,9 @@ comment: "curl 'https://api-manager-prd-ne.azure-api.net/api/v1/Search/Aggregate
 
 Web services in western europe suck ass. My health insurance company do it as well: it is nowhere to find a map with all medical services they cover — neither on their website, nor in mobile app. You have to crawl over thousands of rows of data manually looking for your ZIP code and googling addresses all the time.
 
-I've just dumped their JSON API data and saved it locally to make this masterpiece.
+I've just dumped their JSON API data and saved it locally to make this masterpiece. There are some filters, but keep in mind that this data is not well organised and may be confusing
 
-Use at your own risk — it's about **6 Mb** of JSON data 😵.
+Use at your own risk and feel free to drop me a line if you have any questions.
 
 <div id="mgen_app">
 </div>
