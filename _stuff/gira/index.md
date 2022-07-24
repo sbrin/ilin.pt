@@ -20,6 +20,7 @@ date:   2022-07-10
 
 .gira-button {
     cursor: pointer;
+    line-height: 1.5;
 }
 
 .gira-input-number {

@@ -23,9 +23,8 @@ paginate_path: blog/page:num
 
 collections:
   posts:
-    title: 🏡 # Needed for Siteleaf
     output: true
-    description: "This is merely a demo, find out more [about Garth](about)" # The post list page content
+    description: "My name is Mikhail Ilin and I identify myself as a random stuff engineer. Most of the things I like are related to web technologies, music or design."
   stuff:
     title: Stuff
     output: true
@@ -59,3 +58,5 @@ exclude:
 webrick:
   headers:
     Content-Security-Policy: "default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';"
+
+favicon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💭</text></svg>"

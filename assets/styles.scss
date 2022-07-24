@@ -1,0 +1,21 @@
+---
+title: false
+---
+
+@import "garth";
+
+.item--current a {
+    color: #996b00;
+}
+
+.typeset p {
+    line-height: 1.75rem;
+}
+
+.typeset.content p {
+    margin-bottom: 0.2rem;
+}
+
+.typeset code, .typeset pre {
+   padding: 0.2rem;
+}

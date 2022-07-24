@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "Stuff I made for fun and profit"
-summary: Simple single page apps
+summary: "Simple single page apps"
 collectionpage: stuff
 permalink: /stuff/
 ---
