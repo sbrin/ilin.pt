@@ -16,6 +16,7 @@ github_username:  sbrin
 plugins:
   - jekyll-feed
   - jekyll-paginate
+  - jekyll-feed
 
 # Pagination
 paginate: 10
