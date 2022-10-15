@@ -25,7 +25,7 @@ paginate_path: blog/page:num
 collections:
   posts:
     output: true
-    description: "My name is Mikhail Ilin and I identify myself as a random stuff engineer. Most of the things I like are related to web technologies, music or design."
+    description: "My name is Mikhail Ilin and I identify myself as a random stuff engineer. Most of the things I like are related to web technologies, music or design. [My GitHub](https://github.com/sbrin), [Twitter](https://twitter.com/ilin_pt) and [LinkedIn](https://www.linkedin.com/in/mihaililin/)"
   stuff:
     title: Stuff
     output: true
