@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "The pomodoro timer for Flipper Zero!"
+title: "Pomodoro timer for Flipper Zero!"
 date: 2022-10-15 18:23
 categories:
 - General

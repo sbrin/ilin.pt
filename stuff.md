@@ -6,7 +6,13 @@ collectionpage: stuff
 permalink: /stuff/
 ---
 
+<!-- ### [Minimalistic Lightweight Laptop Stand DIY](/general/2022/10/15/flipper-zero-pomodoro.html)
 
+This is a 5th iteration of my minimalistic plywood laptop stand design. Total weight is less than 100 grams and it suits any MacBook. The total raise is 20% higher than any other stand on market. And It costs just 5€ to produce! -->
+
+### [The pomodoro timer for Flipper Zero!](/general/2022/10/15/flipper-zero-pomodoro.html)
+
+[Flipper Zero](https://flipperzero.one/) is a portable Tamagotchi-like multi-functional device. This app is made to make it easier to follow the Pomodoro time management method. [Pomodoro App Github](https://github.com/sbrin/flipperzero_pomodoro)
 
 ### [Gira station bike alert](/stuff/gira)
 

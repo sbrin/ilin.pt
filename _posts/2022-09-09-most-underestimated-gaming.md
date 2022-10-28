@@ -11,11 +11,32 @@ I believe nobody knows how astonishing browser games can be and how many advanta
 Engineers at Evolution are focused on creating the most accessible and immersive experience for our players using Web technologies!
 Today I will show you why I think it is underestimated and what cool things you can do in browser.
 
+<style>
+.embed-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.embed-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+</style>
+
 ## DOOM
 But let me first share something more personal.
 My first experience with 3D video games happened when I was 8 years old. 
 I was lucky to be invited to use my father’s workplace to play DOOM for the fist time in my life.
 This cover art exactly describes what I felt sitting in front of CRT display with Sound Blaster and stereo speakers maxed out.
+
+![Doom](/assets/img/2022-09-09-most-underestimated-gaming/doom.jpg "Doom")
+
 I will never forget this feeling. Yes, I was really scared!
 I have never experienced anything like that before. Of Course now it looks very simple. But at that time… That was insane!
 
@@ -35,14 +56,18 @@ In Evolution we have a tradition that every new engineer has to pass a two weeks
 
 The interesting part of this process is that you must play all these games we have.
 
-Literally: we reserve several days only for playing games.
-
-I believe this is a great way to impress and motivate newcomers.
+Literally: we reserve several days only for playing games. I believe this is a great way to impress and motivate newcomers.
 
 Here is what I learned during that time.
 
 ## Live Casino
-Let’s take a look at this variation of classic casino game - Lightning Roulette.
+Let’s take a look at this variation of classic casino game — Lightning Roulette.
+
+<div class="embed-container">
+    <video controls>
+        <source src="/assets/video/2022-09-09-most-underestimated-gaming/roulette_src_nosound_small.mp4" type="video/mp4">
+    </video>
+</div>
 
 I was like: what is this thing? Is that a TV show? A video game? A Twitch stream? What’s happening there?
 
@@ -76,6 +101,12 @@ Make a video game!
 
 So we made a 3D version of the Lightning Roulette!
 
+<div class="embed-container">
+    <video controls>
+        <source src="/assets/video/2022-09-09-most-underestimated-gaming/fp_roulette_nosound_cut.mp4" type="video/mp4">
+    </video>
+</div>
+
 We call such games the First Person. Maybe to pay a tribute to the first person shooters like DOOM :)
 
 Now it’s a 3D scene with a Roulette table. You can place bets like in real life by placing chips on the table or dragging it around. The ball is spinning and falling exactly on a specific pocket. The outcome is generated randomly on the server side.
@@ -87,9 +118,15 @@ And we are still in the web browser! And it still works perfectly on any mobile 
 ## Lightning
 You may have noticed that lightning strike animation.
 
+<div class="embed-container">
+    <video controls loop>
+        <source src="/assets/video/2022-09-09-most-underestimated-gaming/fp_lightning_ro.mp4" type="video/mp4">
+    </video>
+</div>
+
 One of the first implementations was made using animated sprite image. Yes, the good old sprite animation from 90s which you can see in DOOM.
 
-Game artists were generating all these frames and sent us a quite big PNG image. Unfortunately such images are too big to use on the web - it really affected the loading time.
+Game artists were generating all these frames and sent us a quite big PNG image. Unfortunately such images are too big to use on the web — it really affected the loading time.
 
 We definitely needed something different. So we start thinking: what lightning is?
 
@@ -108,7 +145,13 @@ After several attempts we’ve got a pretty customisable lightning strike genera
 ## Shaders
 Speaking about magic: one thing caught my attention because I couldn’t explain how it is made.
 
-These smoky clouds and flying stars - what is that?
+<div class="embed-container">
+    <video controls loop>
+        <source src="/assets/video/2022-09-09-most-underestimated-gaming/roulette_shader.mp4" type="video/mp4">
+    </video>
+</div>
+
+These smoky clouds and flying stars — what is that?
 Maybe you can tell?
 Animated GIF? A video recording? Canvas or CSS animation?
 
@@ -116,7 +159,7 @@ It is a shader! And shaders appear to be a part of WebGL specification!
 
 A little side note if you are confused as I was:
 
-“Shader is a computer program that calculates the appropriate levels of light, darkness, and color during the rendering of a 3D scene”
+> “Shader is a computer program that calculates the appropriate levels of light, darkness, and color during the rendering of a 3D scene”
 
 Long story short: it is a procedural graphics generation language called GLSL which is widely used in 3D graphics. It renders purely on the GPU and is really efficient.
 
@@ -128,33 +171,53 @@ It will just take a lot of time :) But you won’t need any models or textures f
 
 This is an example of animated shader:
 
+<div class="embed-container">
+    <video controls loop>
+        <source src="/assets/video/2022-09-09-most-underestimated-gaming/fp_shader_example_cut.mp4" type="video/mp4">
+    </video>
+</div>
+
 And this is the code. The magical mystery 500 characters:
+
+![glsl animated shader](/assets/img/2022-09-09-most-underestimated-gaming/fp_shader_code.png "animated shader code")
 
 Don’t ask what’s happening here — all I can tell is there are a lot of mathematical operations. [Watch yourself](https://www.shadertoy.com/view/flKyzG).
 
-I recommend you to check out the shaders of the day. They are insane. People even generate SOUND with shaders and pass it to Web Audio API. But it’s more like a proof of concept than practical advice.
+I recommend you to check out the [shaders of the week](https://www.shadertoy.com/playlist/week). They are insane. People even generate SOUND with shaders and pass it to Web Audio API. But it’s more like a proof of concept than practical advice.
 
-People usually think this is reserved for "real" games but it works on the Web through WebGL.
+People usually think shaders are reserved for "real" games but it works on the Web through WebGL.
 
 ## Physics
 Let’s check out another game. There is one thing I want to show.
 
 Craps is a dice game in which players bet on the outcomes of the roll of a pair of dice.
 
+<div class="embed-container">
+    <video controls loop>
+        <source src="/assets/video/2022-09-09-most-underestimated-gaming/fp_craps_cut.mp4" type="video/mp4">
+    </video>
+</div>
+
 (This is all a 3D scene by the way)
 
-For starting the game we could make just a simple button, like a spin/rebet one from the previous case.
+For starting the game we could make just a simple button, like a "spin" one from the previous case.
 
-But! Beside that our engineers implemented a physics simulation of throwing the dice!  Like angry birds, but in 3D.
+But! Beside that our engineers implemented a physics simulation of throwing the dice! Like angry birds, but in 3D.
 
-This is a BabylonJS feature, but it relies on on of many physics simulation libraries There are many ways to use it - for example here you can see explosion animation followed by hurricane effect.
+This is a [BabylonJS](https://doc.babylonjs.com/features/featuresDeepDive/physics/usingPhysicsEngine) feature, but it relies on one of many physics simulation libraries. There are many ways to use it — for example here you can see explosion animation followed by hurricane effect.
+
+<div class="embed-container">
+    <video controls loop>
+        <source src="/assets/video/2022-09-09-most-underestimated-gaming/physics.mp4" type="video/mp4">
+    </video>
+</div>
 
 In our case the outcome is still randomly generated by the server, but the collision animation made me feel it’s real.
 
 ## Magic curtain
 The next one was really surprising for me.
 
-On this screen we have a slot machine with barely visible video on the background behind the curtain
+On this screen we have a slot machine with barely visible video on the background behind the curtain:
 
 If you gaze long into the curtain, the curtain starts gazing at you :) And you may notice that:
 - The coins are rotating, just a little
@@ -162,13 +225,19 @@ If you gaze long into the curtain, the curtain starts gazing at you :) And you m
 - It has randomly placed shiny glares
 - It is infinite long and responsive
 
+<div class="embed-container">
+    <video controls loop>
+        <source src="/assets/video/2022-09-09-most-underestimated-gaming/curtain.mp4" type="video/mp4">
+    </video>
+</div>
+
 How is it made?
 
 What comes to my mind first is this could be a bunch of animated GIF images. But no, it would be too big and low quality with no alpha-channel and costs extra HTTP requests.
 
 Maybe we can use some PNG images and generate a grid with JavaScript and animate it with CSS… 
 
-But it seems to me our engineers would be still unhappy with that: you have to generate hundreds of HTML elements and somehow randomize the animation start time otherwise everything would look synchronous and fake and be less performant.
+But it seems to me our engineers would be still unhappy with that: you have to generate thousands of HTML elements and somehow randomize the animation start time otherwise everything would look synchronous and fake and be less performant. You can check my React + CSS [implementation on CodeSandbox](https://codesandbox.io/embed/curtain-animation-eoo7fv?fontsize=14&hidenavigation=1&theme=dark) and see how if affects browser performance.
 
 Luckily we have some smart guys. So they made it with WebGL and shaders!
 
@@ -183,6 +252,8 @@ The result is lightweight, customisable, responsive and performant. Made with pu
 ## Mixed reality
 Allright! The last stop in our journey is the Gonzo Treasure Hunt live show.
 
+![gonzo treasure hunt](/assets/img/2022-09-09-most-underestimated-gaming/gonzo_main.jpg "gonzo treasure hunt")
+
 At first glance it seems like nothing special here.
 We already know most of the components involved.
 
@@ -194,11 +265,19 @@ Just a quick recap:
 
 But there is a tiny button added at the top of the screen. It turns out this game is also playable in VR mode! Look:
 
+<div class="embed-container">
+    <video controls loop>
+        <source src="/assets/video/2022-09-09-most-underestimated-gaming/gonzo_vr.mp4" type="video/mp4">
+    </video>
+</div>
+
 This is an absolutely different video stream.  And there are two cameras used to make a 3D effect.  This character walks around and sometimes interacts with a player. 
 
 But we had one problem: in the 3D world there are no HTML elements at all. No React JSX or CSS.
 
 For that reason the whole user interface was recreated with 3D graphics.  Buttons, sliders, inputs - all of that are 3D objects.
+
+![gonzo treasure hunt VR](/assets/img/2022-09-09-most-underestimated-gaming/gonzo_vr.jpg "gonzo treasure hunt webXR")
 
 You can rotate your head and use your controllers to press buttons - do everything you would expect in VR.
 
