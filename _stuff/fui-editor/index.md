@@ -20,4 +20,6 @@ No mobile devices support, sorry.
 
 Send your feedback and questions to **fui@ilin.pt**
 
-<iframe src="assets/editor.html" width="900" height="900" title="description"></iframe>
+<iframe src="assets/editor.html" width="900" height="750" title="description"></iframe>
+
+[Open in separate page](assets/editor.html)
