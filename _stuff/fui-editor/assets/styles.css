@@ -116,6 +116,10 @@ canvas {
   outline: none;
 }
 
+.inspector__input[type=text] {
+  width: 128px;
+}
+
 .title {
   margin: 0 0 8px 0;
   font-size: 32px;

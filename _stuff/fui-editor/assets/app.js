@@ -727,7 +727,7 @@ ${func}(canvas, ${element.x}, ${element.y}, "${element.text}")`;
         },
         methods: {
             onInput(e) {
-                this.element[this.field] = this.type === "str" ? e.target.value : parseInt(e.target.value);
+                this.element[this.field] = this.type === "text" ? e.target.value : parseInt(e.target.value);
                 this.$emit('redrawCanvas');
             }
         }
