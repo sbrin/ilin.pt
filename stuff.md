@@ -10,6 +10,10 @@ permalink: /stuff/
 
 This is a 5th iteration of my minimalistic plywood laptop stand design. Total weight is less than 100 grams and it suits any MacBook. The total raise is 20% higher than any other stand on market. And It costs just 5€ to produce! -->
 
+### [The GUI editor/generator for Flipper Zero!](/stuff/fui-editor)
+
+Draw any graphics, copy the generated code and use it in your application! 
+
 ### [The pomodoro timer for Flipper Zero!](/general/2022/10/15/flipper-zero-pomodoro.html)
 
 [Flipper Zero](https://flipperzero.one/) is a portable Tamagotchi-like multi-functional device. This app is made to make it easier to follow the Pomodoro time management method. [Pomodoro App Github](https://github.com/sbrin/flipperzero_pomodoro)
