@@ -1,6 +1,6 @@
 @font-face {
-  font-family: "FontSecondary";
-  src: url("fonts/Helvetica-Bold-Font.ttf");
+  font-family: "FontPrimary";
+  src: url("fonts/helvb08.ttf");
   font-weight: normal;
   font-style: normal;
 }
@@ -13,7 +13,7 @@
 }
 
 :root {
-  --primary-color: #fe8a2c;
+  --primary-color: #FF8200;
   --secondary-color: #441f07;
   --bg-color: #1c0e02;
   --border-color: #955b2f;
@@ -21,7 +21,8 @@
   --danger-color: #eb4e27;
 }
 
-h1 {
+h1, h2 {
+  font-family: "FontPrimary";
   font-weight: normal;
 }
 
@@ -39,9 +40,9 @@ canvas {
   height: 256px;
   image-rendering: pixelated;
   background: #ed791b;
-  font-smooth: none;
   text-rendering: "geometricPrecision";
-  --webkit-font-smoothing: none;
+  font-smooth: never;
+  -webkit-font-smoothing : none;
 }
 
 .fui-editor {
@@ -90,7 +91,8 @@ canvas {
 }
 
 .inspector__title {
-  font-size: 24px;
+  font-size: 12px;
+  font-family: FontPrimary;
   overflow: hidden;
   width: 150px;
 }
@@ -102,6 +104,14 @@ canvas {
 
 .inspector__col > *:first-child {
   margin-right: 8px;
+}
+
+.inspector__select {
+  background: var(--secondary-color);
+  border: none;
+  font-size: 16px;
+  font-family: 'FontSecondary';
+  color: var(--primary-color);
 }
 
 .inspector__input {
@@ -122,8 +132,8 @@ canvas {
 
 .title {
   margin: 0 0 8px 0;
-  font-size: 32px;
-  line-height: 24px;
+  font-size: 16px;
+  line-height: 12px;
 }
 
 .tools {

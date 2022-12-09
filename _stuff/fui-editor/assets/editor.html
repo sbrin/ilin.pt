@@ -108,7 +108,9 @@
                 <div v-if="typeof elem.y2 === 'number'">y2: <fui-inspector-input :element="elem" field="y2" type="number" @redraw-canvas="redrawCanvas"></fui-inspector-input></div>
                 <div v-if="typeof elem.height === 'number' && isHWVisible(elem)">h: <fui-inspector-input :element="elem" field="height" type="number" @redraw-canvas="redrawCanvas"></fui-inspector-input></div>
             </div>
-            <div v-if="elem.font">{{elem.font}}</div>
+            <div v-if="elem.font">
+                <fui-inspector-input :element="elem" field="font" type="select" @redraw-canvas="redrawCanvas"></fui-inspector-input>
+            </div>
             <div v-if="elem.text">
                 <fui-inspector-input :element="elem" field="text" type="text" @redraw-canvas="redrawCanvas"></fui-inspector-input>
             </div>
@@ -126,6 +128,13 @@
     </template>
     <template id="fui-inspector-input">
         <span v-if="['str','dot'].includes(element.type) && ['width','height'].includes(field)">{{ element[field] }}</span>
+        <select class="inspector__select"
+            v-if="field === 'font'"
+            :value="element[field]"
+            @input="onSelect"
+        >
+            <option v-for="(font, idx) in fontsList" :key="idx" :value="font">{{ font }}</option>
+        </select>
         <input v-else
             class="inspector__input"
             @input="onInput"

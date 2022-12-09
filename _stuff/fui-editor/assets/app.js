@@ -232,6 +232,11 @@ Vue.createApp({
                 mainTab: "icons",
                 isDrawing: false,
                 isMoving: false,
+                defaultFont: "FontPrimary",
+                fontSizes: {
+                    FontPrimary: "10",
+                    FontSecondary: "16",
+                }
             };
         },
         computed: {
@@ -345,7 +350,7 @@ Vue.createApp({
                         text: "Text string",
                         width: 50,
                         height: 8,
-                        font: "FontSecondary"
+                        font: this.defaultFont,
                     };
                     this.layerIndex += 1;
                     this.screenElements.push(this.screenCurrentElement);
@@ -493,7 +498,8 @@ Vue.createApp({
                         bline(imgData, x, y, x2, y2);
                         this.ctx.putImageData(imgData, 0, 0);
                     } else if (type === "str") {
-                        this.ctx.font = `16px ${font}`;
+                        const fontSize = this.fontSizes[font];
+                        this.ctx.font = `${fontSize}px ${font}`;
                         this.ctx.fillText(text, x, y);
                     }
                 }
@@ -575,7 +581,7 @@ Vue.createApp({
                     case "line":
                         return `${func}(canvas, ${element.x}, ${element.y}, ${element.x2}, ${element.y2})`;
                     case "str":
-                        return `canvas_set_font(canvas, FontSecondary);
+                        return `canvas_set_font(canvas, ${element.font});
 ${func}(canvas, ${element.x}, ${element.y}, "${element.text}")`;
                     default:
                 }
@@ -724,10 +730,20 @@ ${func}(canvas, ${element.x}, ${element.y}, "${element.text}")`;
             element: Object,
             type: String,
             field: String,
+            defaultFont: String,
+        },
+        data() {
+            return {
+                fontsList: ["FontPrimary", "FontSecondary"],
+            };
         },
         methods: {
             onInput(e) {
-                this.element[this.field] = this.type === "text" ? e.target.value : parseInt(e.target.value);
+                this.element[this.field] = ["text"].includes(this.type) ? e.target.value : parseInt(e.target.value);
+                this.$emit('redrawCanvas');
+            },
+            onSelect(e) {
+                this.element[this.field] = e.target.value;
                 this.$emit('redrawCanvas');
             }
         }
