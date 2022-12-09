@@ -111,7 +111,7 @@
             <div v-if="elem.font">
                 <fui-inspector-input :element="elem" field="font" type="select" @redraw-canvas="redrawCanvas"></fui-inspector-input>
             </div>
-            <div v-if="elem.text">
+            <div v-if="elem.type === 'str'">
                 <fui-inspector-input :element="elem" field="text" type="text" @redraw-canvas="redrawCanvas"></fui-inspector-input>
             </div>
         </div>

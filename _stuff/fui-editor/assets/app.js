@@ -299,9 +299,9 @@ Vue.createApp({
                 const offsetTargetY = Math.round(
                     this.scaleDown(e.offsetY) - offsetSrcImgY
                 );
-                
+
                 this.addImageToCanvas(name, offsetTargetX, offsetTargetY);
-                
+
             },
             canvasMouseDown(e) {
                 e.preventDefault();
@@ -407,7 +407,12 @@ Vue.createApp({
                         this.screenCurrentElement.yy = this.scaleDown(y) - 8;
                     }
                     if (["line"].includes(this.screenCurrentElement.type)) {
-                        const {x: x1, y: y1, x2, y2} = this.screenCurrentElement;
+                        const {
+                            x: x1,
+                            y: y1,
+                            x2,
+                            y2
+                        } = this.screenCurrentElement;
                         const width = Math.abs(x2 - x1);
                         const height = Math.abs(y2 - y1);
                         if (x2 > x1) {
@@ -598,7 +603,7 @@ ${func}(canvas, ${element.x}, ${element.y}, "${element.text}")`;
             },
             getLayerListItem(element) {
                 if (element.type === "str") {
-                    return `${element.text}`;
+                    return `${element.text || "Empty str"}`;
                 }
                 if (element.type === "icon") {
                     return `${element.name}`;
@@ -698,7 +703,7 @@ ${func}(canvas, ${element.x}, ${element.y}, "${element.text}")`;
                 this.$emit('redrawCanvas');
             },
             isHWVisible(elem) {
-                return !['line','str','dot','icon'].includes(elem.type);
+                return !['line', 'str', 'dot', 'icon'].includes(elem.type);
             }
         }
     })
@@ -739,7 +744,11 @@ ${func}(canvas, ${element.x}, ${element.y}, "${element.text}")`;
         },
         methods: {
             onInput(e) {
-                this.element[this.field] = ["text"].includes(this.type) ? e.target.value : parseInt(e.target.value);
+                const result = ["text"].includes(this.type) ?
+                    e.target.value.replace(/[^0-9a-zA-Z\s\!\"\.\#\$\%\&\'\(\)\*\+\,\-\.\/]/g, '') :
+                    parseInt(e.target.value.replace(/[^0-9]/g, ''));
+                e.target.value = result;
+                this.element[this.field] = result;
                 this.$emit('redrawCanvas');
             },
             onSelect(e) {
