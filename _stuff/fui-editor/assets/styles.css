@@ -21,7 +21,7 @@
   --danger-color: #eb4e27;
 }
 
-h1, h2 {
+h1, h2, h3 {
   font-family: "FontPrimary";
   font-weight: normal;
 }
@@ -247,8 +247,6 @@ canvas {
   border-top: 0;
   margin: 0 0 8px 0;
   padding: 16px;
-  font-size: 0;
-  line-height: 0;
   height: 256px;
   color: var(--secondary-color);
 }
@@ -260,6 +258,24 @@ canvas {
   margin: 8px;
   mix-blend-mode: darken;
   border: 1px solid var(--border-color);
+}
+
+.fui-icons__header {
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  height: 24px;
+  width: 100%;
+}
+.fui-icons__header:hover .fui-icons__remove-custom {
+  display: block;
+}
+
+.fui-icons__remove-custom {
+  display: none;
+  cursor: pointer;
+  color: var(--danger-color);
+  margin: 0 8px;
 }
 
 .fui-tabs {

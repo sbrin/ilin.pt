@@ -1,4 +1,4 @@
-const iconsSrc = {
+const ICONS_SRC = {
     "125_10px": "125_10px.png",
     "ActiveConnection_50x64": "ActiveConnection_50x64.png",
     "Alert_9x8": "Alert_9x8.png",
@@ -173,455 +173,365 @@ const canvasHeight = 64;
 const canvasBoundX = canvasWidth * 4;
 const canvasBoundY = canvasHeight * 4;
 
-function bline(imgData, x0, y0, x1, y1) {
-    const resultArr = [];
-    const dx = Math.abs(x1 - x0),
-        sx = x0 < x1 ? 1 : -1;
-    const dy = Math.abs(y1 - y0),
-        sy = y0 < y1 ? 1 : -1;
-    let err = (dx > dy ? dx : -dy) / 2;
-    while (true) {
-        resultArr.push([x0, y0]);
-        if (x0 === x1 && y0 === y1) break;
-        var e2 = err;
-        if (e2 > -dx) {
-            err -= dy;
-            x0 += sx;
-        }
-        if (e2 < dy) {
-            err += dx;
-            y0 += sy;
-        }
-    }
-    for (let i = 0; i < resultArr.length; i++) {
-        const [x, y] = resultArr[i];
-        const n = (y * canvasWidth + x) * 4;
-
-        imgData.data[n] = 0;
-        imgData.data[n + 1] = 0;
-        imgData.data[n + 2] = 0;
-        imgData.data[n + 3] = 255;
-    }
-}
-
-function maskBlack(imgData) {
-    for (var i = 0; i < imgData.data.length; i += 4) {
-        if (imgData.data[i] + imgData.data[i + 1] + imgData.data[i + 2] >= 10) {
-            imgData.data[i + 3] = 0; // alpha
-        }
-    }
-    return imgData;
-}
-
 Vue.createApp({
-        template: "#fui-editor",
-        data() {
-            return {
-                layerIndex: 1,
-                fuiImages: {},
-                codePreview: "",
-                screenElements: [],
-                screenCurrentElement: null,
-                mouseClick_x: 0,
-                mouseClick_y: 0,
-                mouseClick_dx: 0,
-                mouseClick_dy: 0,
-                oX: 0,
-                oY: 0,
-                activeTool: "frame",
-                mainTab: "icons",
-                isDrawing: false,
-                isMoving: false,
-                defaultFont: "FontPrimary",
-                fontSizes: {
-                    FontPrimary: "10",
-                    FontSecondary: "16",
-                }
-            };
-        },
-        computed: {
-            screenRawElements() {
-                return this.screenElements.filter((item) => ["line"].includes(item.type));
-            },
-            screenSimpleElements() {
-                return this.screenElements.filter(
-                    (item) => !["line"].includes(item.type)
-                );
+    template: "#fui-editor",
+    data() {
+        return {
+            layerIndex: 1,
+            fuiImages: {},
+            customImages: [],
+            codePreview: "",
+            screenElements: [],
+            screenCurrentElement: null,
+            mouseClick_x: 0,
+            mouseClick_y: 0,
+            mouseClick_dx: 0,
+            mouseClick_dy: 0,
+            oX: 0,
+            oY: 0,
+            activeTool: "frame",
+            mainTab: "icons",
+            isDrawing: false,
+            isMoving: false,
+            defaultFont: "FontPrimary",
+            fontSizes: {
+                FontPrimary: "10",
+                FontSecondary: "16",
             }
+        };
+    },
+    computed: {
+        screenRawElements() {
+            return this.screenElements.filter((item) => ["line"].includes(item.type));
         },
-        methods: {
-            setMainTab(tab) {
-                this.mainTab = tab;
-            },
-            prepareImages(e) {
-                console.log("prepareImages", e);
-                this.fuiImages = e;
-            },
-            setActiveTool(tool) {
-                this.activeTool = tool;
-            },
-            setCurrentItem(item) {
-                this.screenCurrentElement = item;
-            },
-            removeElement(index) {
-                this.screenCurrentElement = undefined;
-                this.screenElements = this.screenElements.filter(
-                    (item) => item.index !== index
-                );
-                this.generateCode(this.screenElements);
-                this.redrawCanvas();
-            },
-            addImageToCanvas(name, x = 32, y = 16) {
-                this.screenElements.push({
-                    type: "icon",
-                    x: x,
-                    y: y,
-                    width: this.fuiImages[name].width,
-                    height: this.fuiImages[name].height,
-                    name: name,
-                    index: this.layerIndex
-                });
-                this.screenCurrentElement = this.screenElements.find(item => item.index === this.layerIndex);
-                this.layerIndex += 1;
-                this.generateCode(this.screenElements);
-                this.redrawCanvas();
-                this.activeTool = "select";
-            },
-            canvasOnDrop(e) {
-                e.preventDefault();
-                const name = e.dataTransfer.getData("name");
-                const [offsetSrcImgX, offsetSrcImgY] = e.dataTransfer
-                    .getData("offset")
-                    .split(",");
-                const offsetTargetX = Math.round(
-                    this.scaleDown(e.offsetX) - offsetSrcImgX
-                );
-                const offsetTargetY = Math.round(
-                    this.scaleDown(e.offsetY) - offsetSrcImgY
-                );
+        screenSimpleElements() {
+            return this.screenElements.filter(
+                (item) => !["line"].includes(item.type)
+            );
+        },
+        canvasClassNames() {
+            return {
+                'fui-canvas_select': this.activeTool === 'select',
+                'fui-canvas_moving': this.isMoving,
+            }
+        }
+    },
+    methods: {
+        setMainTab(tab) {
+            this.mainTab = tab;
+        },
+        prepareImages(e) {
+            this.fuiImages = e;
+        },
+        setActiveTool(tool) {
+            this.activeTool = tool;
+        },
+        setCurrentItem(item) {
+            this.screenCurrentElement = item;
+        },
+        removeLayer(index) {
+            this.screenCurrentElement = undefined;
+            this.screenElements = this.screenElements.filter(
+                (item) => item.index !== index
+            );
+            this.redrawCanvas();
+        },
+        addImageToCanvas(name, x = 32, y = 16) {
+            this.screenElements.push({
+                type: "icon",
+                custom: this.fuiImages[name].custom,
+                x: x,
+                y: y,
+                width: this.fuiImages[name].width,
+                height: this.fuiImages[name].height,
+                name: name,
+                index: this.layerIndex,
+            });
+            this.screenCurrentElement = this.screenElements.find(item => item.index === this.layerIndex);
+            this.layerIndex += 1;
+            this.redrawCanvas();
+            this.activeTool = "select";
+        },
+        async canvasOnDrop(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const [offsetSrcImgX, offsetSrcImgY] = e.dataTransfer.getData("offset")
+                ? e.dataTransfer.getData("offset").split(",")
+                : [0, 0];
+            const offsetTargetX = scaleDown(e.offsetX - offsetSrcImgX);
+            const offsetTargetY = scaleDown(e.offsetY - offsetSrcImgY);
+            let name = e.dataTransfer.getData("name");
 
-                this.addImageToCanvas(name, offsetTargetX, offsetTargetY);
-
-            },
-            canvasMouseDown(e) {
-                e.preventDefault();
-                if (e.button !== 0) {
-                    return;
+            if (!name) {
+                const file = e.dataTransfer.files[0];
+                name = file.name.substr(0, file.name.lastIndexOf('.')) || file.name; // remove file extension
+                const fileResult = await readFileAsync(file);
+                const image = await loadImageAsync(fileResult);
+                if (!this.fuiImages[name]) {
+                    this.fuiImages[name] = {
+                        width: image.width,
+                        height: image.height,
+                        element: image,
+                        custom: true,
+                    };
+                    this.customImages = [...this.customImages, {
+                        name: name,
+                        width: image.width,
+                        height: image.height,
+                        element: image,
+                        src: image.src,
+                        custom: true,
+                    }];
                 }
-                const [x, y] = [e.offsetX, e.offsetY];
-                this.mouseClick_x = x - (x % 4);
-                this.mouseClick_y = y - (y % 4);
-                this.screenCurrentElement = undefined;
-                const current = this.getElementByOffset(this.screenElements, x, y);
-                this.isDrawing = true;
-                console.log(current);
+            }
+            this.addImageToCanvas(name, offsetTargetX, offsetTargetY);
+        },
+        canvasMouseDown(e) {
+            e.preventDefault();
+            if (e.button !== 0) {
+                return;
+            }
+            const [x, y] = [e.offsetX, e.offsetY];
+            this.mouseClick_x = x - (x % 4);
+            this.mouseClick_y = y - (y % 4);
+            this.screenCurrentElement = undefined;
+            this.isDrawing = true;
 
-                if (["frame", "box", "dot"].includes(this.activeTool)) {
-                    this.screenCurrentElement = {
-                        type: this.activeTool,
-                        x: this.scaleDown(x),
-                        y: this.scaleDown(y),
-                        width: 1,
-                        height: 1,
-                        index: this.layerIndex
-                    };
-                    this.layerIndex += 1;
-                    this.screenElements.push(this.screenCurrentElement);
-                } else if (this.activeTool === "line") {
-                    this.screenCurrentElement = {
-                        type: this.activeTool,
-                        x: this.scaleDown(x),
-                        y: this.scaleDown(y),
-                        x2: this.scaleDown(x),
-                        y2: this.scaleDown(y),
-                        width: 0,
-                        height: 0,
-                        index: this.layerIndex
-                    };
-                    this.layerIndex += 1;
-                    this.screenElements.push(this.screenCurrentElement);
-                } else if (this.activeTool === "str") {
-                    this.screenCurrentElement = {
-                        type: this.activeTool,
-                        x: this.scaleDown(x),
-                        y: this.scaleDown(y),
-                        yy: this.scaleDown(y) - 8,
-                        index: this.layerIndex,
-                        text: "Text string",
-                        width: 50,
-                        height: 8,
-                        font: this.defaultFont,
-                    };
-                    this.layerIndex += 1;
-                    this.screenElements.push(this.screenCurrentElement);
-                } else if (current) {
+            if (["frame", "box", "dot"].includes(this.activeTool)) {
+                this.screenCurrentElement = {
+                    type: this.activeTool,
+                    x: scaleDown(x),
+                    y: scaleDown(y),
+                    width: 1,
+                    height: 1,
+                    index: this.layerIndex
+                };
+                this.layerIndex += 1;
+                this.screenElements.push(this.screenCurrentElement);
+            } else if (this.activeTool === "line") {
+                this.screenCurrentElement = {
+                    type: this.activeTool,
+                    x: scaleDown(x),
+                    y: scaleDown(y),
+                    x2: scaleDown(x),
+                    y2: scaleDown(y),
+                    width: 0,
+                    height: 0,
+                    index: this.layerIndex
+                };
+                this.layerIndex += 1;
+                this.screenElements.push(this.screenCurrentElement);
+            } else if (this.activeTool === "str") {
+                this.screenCurrentElement = {
+                    type: this.activeTool,
+                    x: scaleDown(x),
+                    y: scaleDown(y),
+                    yy: scaleDown(y) - 8,
+                    index: this.layerIndex,
+                    text: "Text string",
+                    width: 50,
+                    height: 8,
+                    font: this.defaultFont,
+                };
+                this.layerIndex += 1;
+                this.screenElements.push(this.screenCurrentElement);
+            } else {
+                const current = getElementByOffset(this.screenElements, x, y);
+                if (current) {
                     this.isMoving = true;
                     this.screenCurrentElement = current;
-                    const currentX = this.scaleUp(this.screenCurrentElement.x);
-                    const currentY = this.scaleUp(this.screenCurrentElement.y);
+                    const currentX = scaleUp(this.screenCurrentElement.x);
+                    const currentY = scaleUp(this.screenCurrentElement.y);
                     this.mouseClick_dx = this.mouseClick_x - currentX;
                     this.mouseClick_dy = this.mouseClick_y - currentY;
                 }
-            },
-            canvasMouseMove(e) {
-                e.preventDefault();
-                if (!this.screenCurrentElement || !this.isDrawing) {
-                    return;
-                }
-                let x =
-                    this.mouseClick_x > canvasBoundX ? canvasBoundX : this.mouseClick_x;
-                let y =
-                    this.mouseClick_y > canvasBoundY ? canvasBoundY : this.mouseClick_y;
-                if (["line", "frame", "box"].includes(this.activeTool)) {
-                    if (
-                        e.offsetX >= 0 &&
-                        e.offsetY >= 0 &&
-                        e.offsetX < canvasBoundX &&
-                        e.offsetY < canvasBoundY
-                    ) {
-                        if (this.activeTool === "frame") {
-                            x = x >= canvasBoundX - 4 ? canvasBoundX - 4 : x;
-                            y = y >= canvasBoundY - 4 ? canvasBoundY - 4 : y;
-                        }
-                        this.screenCurrentElement.x = this.scaleDown(x);
-                        this.screenCurrentElement.y = this.scaleDown(y);
-
-                        if (["line"].includes(this.activeTool)) {
-                            this.screenCurrentElement.x2 = this.scaleDown(e.offsetX);
-                            this.screenCurrentElement.y2 = this.scaleDown(e.offsetY);
-                        }
-                        if (["frame", "box"].includes(this.activeTool)) {
-                            const width = e.offsetX - this.mouseClick_x;
-                            const height = e.offsetY - this.mouseClick_y;
-                            this.screenCurrentElement.width = this.scaleSize(width);
-                            this.screenCurrentElement.height = this.scaleSize(height);
-                        }
-                    }
-                } else if (this.activeTool === "dot") {
-                    this.screenCurrentElement.x = this.scaleDown(e.offsetX);
-                    this.screenCurrentElement.y = this.scaleDown(e.offsetY);
-                } else {
-                    x = e.offsetX - this.mouseClick_dx;
-                    y = e.offsetY - this.mouseClick_dy;
-                    if (["str"].includes(this.screenCurrentElement.type)) {
-                        this.screenCurrentElement.yy = this.scaleDown(y) - 8;
-                    }
-                    if (["line"].includes(this.screenCurrentElement.type)) {
-                        const {
-                            x: x1,
-                            y: y1,
-                            x2,
-                            y2
-                        } = this.screenCurrentElement;
-                        const width = Math.abs(x2 - x1);
-                        const height = Math.abs(y2 - y1);
-                        if (x2 > x1) {
-                            this.screenCurrentElement.x2 = this.scaleDown(x) + width;
-                        } else {
-                            this.screenCurrentElement.x2 = this.scaleDown(x) - width;
-                        }
-                        if (y2 > y1) {
-                            this.screenCurrentElement.y2 = this.scaleDown(y) + height;
-                        } else {
-                            this.screenCurrentElement.y2 = this.scaleDown(y) - height;
-                        }
-                    }
-                    this.screenCurrentElement.x = this.scaleDown(x);
-                    this.screenCurrentElement.y = this.scaleDown(y);
-                }
-                this.redrawCanvas();
-            },
-            canvasMouseLeave(e) {
-                e.preventDefault();
-                if (this.activeTool === "select") {
-                    this.isMoving = false;
-                    this.stopDrawing(e);
-                }
-            },
-            canvasMouseUp(e) {
-                if (this.isDrawing) {
-                    e.preventDefault();
-                    this.isMoving = false;
-                    this.stopDrawing(e);
-                    this.redrawCanvas();
-                }
-            },
-            stopDrawing() {
-                if (this.isDrawing && this.screenCurrentElement) {
-                    this.isDrawing = false;
-                    if (this.activeTool === "frame" || this.activeTool === "box") {
-                        if (this.screenCurrentElement.width < 0) {
-                            this.screenCurrentElement.width = Math.abs(
-                                this.screenCurrentElement.width
-                            );
-                            this.screenCurrentElement.x -= this.screenCurrentElement.width;
-                        }
-                        if (this.screenCurrentElement.height < 0) {
-                            this.screenCurrentElement.height = Math.abs(
-                                this.screenCurrentElement.height
-                            );
-                            this.screenCurrentElement.y -= this.screenCurrentElement.height;
-                        }
-                        console.log("stopDrawing", this.screenCurrentElement);
-                    }
-                }
-                this.generateCode(this.screenElements);
-            },
-            redrawCanvas() {
-                console.log("redrawCanvas");
-                this.ctx.save();
-                this.ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-                for (let i = 0; i < this.screenElements.length; i++) {
-                    const {
-                        name,
-                        x,
-                        y,
-                        x2,
-                        y2,
-                        width,
-                        height,
-                        type,
-                        text,
-                        font
-                    } = this.screenElements[i];
-                    if (type === "frame") {
-                        console.log(x + 0.5, y + 0.5, width, height);
-                        this.ctx.strokeRect(x + 0.5, y + 0.5, width, height);
-                    } else if (type === "box") {
-                        this.ctx.fillRect(x, y, width, height);
-                    } else if (type === "dot") {
-                        this.ctx.fillRect(x, y, 1, 1);
-                    } else if (type === "icon") {
-                        this.ctx.drawImage(this.fuiImages[name].element, x, y);
-                    } else if (type === "line") {
-                        const imgData = this.ctx.getImageData(
-                            0,
-                            0,
-                            canvasWidth,
-                            canvasHeight
-                        );
-                        bline(imgData, x, y, x2, y2);
-                        this.ctx.putImageData(imgData, 0, 0);
-                    } else if (type === "str") {
-                        const fontSize = this.fontSizes[font];
-                        this.ctx.font = `${fontSize}px ${font}`;
-                        this.ctx.fillText(text, x, y);
-                    }
-                }
-                const imgData = this.ctx.getImageData(0, 0, canvasWidth, canvasHeight);
-                const newImgData = maskBlack(imgData);
-                this.ctx.putImageData(newImgData, 0, 0);
-                this.ctx.restore();
-            },
-            resetScreen() {
-                this.screenElements = [];
-                this.redrawCanvas();
-                this.codePreview = "";
-                this.screenCurrentElement = undefined;
-            },
-            getElementByOffset(uiArr, x, y) {
-                for (let i = uiArr.length - 1; i >= 0; i--) {
-                    const element = uiArr[i];
-                    const scaledX1 = this.scaleUp(element.x);
-                    const scaledY1 = this.scaleUp(element.yy ? element.yy : element.y);
-                    const scaledX2 = this.scaleUp(element.x + element.width);
-                    const scaledY2 = this.scaleUp(element.yy ? element.yy + element.height : element.y + element.height);
-                    if (element.type === "line") {
-                        const isVertical = element.y === element.y2;
-                        const isHorisontal = element.y === element.y2;
-                        const scaledX1 = this.scaleUp(element.x);
-                        const scaledY1 = this.scaleUp(element.y);
-                        const scaledX2 = this.scaleUp(element.x2);
-                        const scaledY2 = this.scaleUp(element.y2);
-                        if (scaledX2 > scaledX1) {
-                            const isXInside = x >= scaledX1 - 4 && x <= scaledX2 + 4;
-                            if (scaledY2 > scaledY1) {
-                                if (isXInside && y >= scaledY1 - 4 && y <= scaledY2 + 4) {
-                                    return element;
-                                };
-                            } else {
-                                if (isXInside && y <= scaledY1 + 4 && y >= scaledY2 - 4) {
-                                    return element;
-                                }
-                            }
-                        } else {
-                            const isXInside = x <= scaledX1 + 4 && x >= scaledX2 - 4;
-                            if (scaledY2 > scaledY1) {
-                                if (isXInside && y >= scaledY1 - 4 && y <= scaledY2 + 4) {
-                                    return element;
-                                }
-                            } else {
-                                if (isXInside && y <= scaledY1 + 4 && y >= scaledY2 - 4) {
-                                    return element;
-                                }
-                            }
-                        }
-                    } else if (scaledX1 <= x && x < scaledX2 && scaledY1 <= y && y < scaledY2) {
-                        console.log(element);
-                        return element;
-                    }
-                }
-            },
-            scaleUp(i) {
-                return 4 * i;
-            },
-            scaleDown(i) {
-                return Math.round(i / 4);
-            },
-            scaleSize(i) {
-                return i > 0 ? Math.round(i / 4) : Math.floor(i / 4);
-            },
-            getCode(element) {
-                const func = `canvas_draw_${element.type}`;
-                switch (element.type) {
-                    case "icon":
-                        return `${func}(canvas, ${element.x}, ${element.y}, &I_${element.name})`;
-                    case "box":
-                        return `${func}(canvas, ${element.x}, ${element.y}, ${element.width}, ${element.height})`;
-                    case "dot":
-                        return `${func}(canvas, ${element.x}, ${element.y})`;
-                    case "frame":
-                        return `${func}(canvas, ${element.x}, ${element.y}, ${element.width + 1
-        }, ${element.height + 1})`;
-                    case "line":
-                        return `${func}(canvas, ${element.x}, ${element.y}, ${element.x2}, ${element.y2})`;
-                    case "str":
-                        return `canvas_set_font(canvas, ${element.font});
-${func}(canvas, ${element.x}, ${element.y}, "${element.text}")`;
-                    default:
-                }
-            },
-            generateCode(uiArr) {
-                let lines = "";
-                for (let i = 0; i < uiArr.length; i++) {
-                    const element = uiArr[i];
-                    lines = `${lines}${this.getCode(element)};
-
-`;
-                }
-                this.codePreview = lines;
-            },
-            getLayerListItem(element) {
-                if (element.type === "str") {
-                    return `${element.text || "Empty str"}`;
-                }
-                if (element.type === "icon") {
-                    return `${element.name}`;
-                }
-                return `${element.type}`;
-            },
-            copyCode() {
-                navigator.clipboard.writeText(this.codePreview);
             }
         },
-        mounted() {
-            this.ctx = this.$refs.screen.getContext("2d");
-            this.ctx.strokeWidth = 1;
-            this.ctx.textRendering = "optimizeSpeed";
+        canvasMouseMove(e) {
+            e.preventDefault();
+            if (!this.screenCurrentElement || !this.isDrawing) {
+                return;
+            }
+            let x =
+                this.mouseClick_x > canvasBoundX ? canvasBoundX : this.mouseClick_x;
+            let y =
+                this.mouseClick_y > canvasBoundY ? canvasBoundY : this.mouseClick_y;
+            if (["line", "frame", "box"].includes(this.activeTool)) {
+                if (
+                    e.offsetX >= 0 &&
+                    e.offsetY >= 0 &&
+                    e.offsetX < canvasBoundX &&
+                    e.offsetY < canvasBoundY
+                ) {
+                    if (this.activeTool === "frame") {
+                        x = x >= canvasBoundX - 4 ? canvasBoundX - 4 : x;
+                        y = y >= canvasBoundY - 4 ? canvasBoundY - 4 : y;
+                    }
+                    this.screenCurrentElement.x = scaleDown(x);
+                    this.screenCurrentElement.y = scaleDown(y);
 
-            document.addEventListener("mouseup", this.canvasMouseUp);
+                    if (["line"].includes(this.activeTool)) {
+                        this.screenCurrentElement.x2 = scaleDown(e.offsetX);
+                        this.screenCurrentElement.y2 = scaleDown(e.offsetY);
+                    }
+                    if (["frame", "box"].includes(this.activeTool)) {
+                        const width = e.offsetX - this.mouseClick_x;
+                        const height = e.offsetY - this.mouseClick_y;
+                        this.screenCurrentElement.width = scaleSize(width);
+                        this.screenCurrentElement.height = scaleSize(height);
+                    }
+                }
+            } else if (this.activeTool === "dot") {
+                this.screenCurrentElement.x = scaleDown(e.offsetX);
+                this.screenCurrentElement.y = scaleDown(e.offsetY);
+            } else {
+                x = e.offsetX - this.mouseClick_dx;
+                y = e.offsetY - this.mouseClick_dy;
+                if (["str"].includes(this.screenCurrentElement.type)) {
+                    this.screenCurrentElement.yy = scaleDown(y) - 8;
+                }
+                if (["line"].includes(this.screenCurrentElement.type)) {
+                    const {
+                        x: x1,
+                        y: y1,
+                        x2,
+                        y2
+                    } = this.screenCurrentElement;
+                    const width = Math.abs(x2 - x1);
+                    const height = Math.abs(y2 - y1);
+                    if (x2 > x1) {
+                        this.screenCurrentElement.x2 = scaleDown(x) + width;
+                    } else {
+                        this.screenCurrentElement.x2 = scaleDown(x) - width;
+                    }
+                    if (y2 > y1) {
+                        this.screenCurrentElement.y2 = scaleDown(y) + height;
+                    } else {
+                        this.screenCurrentElement.y2 = scaleDown(y) - height;
+                    }
+                }
+                this.screenCurrentElement.x = scaleDown(x);
+                this.screenCurrentElement.y = scaleDown(y);
+            }
+            this.redrawCanvas();
+        },
+        canvasMouseLeave(e) {
+            e.preventDefault();
+            if (this.activeTool === "select") {
+                this.isDrawing = false;
+                this.stopDrawing(e);
+            }
+            this.isMoving = false;
+        },
+        canvasMouseUp(e) {
+            if (this.isDrawing) {
+                e.preventDefault();
+                this.stopDrawing(e);
+                this.redrawCanvas();
+            }
+            this.isMoving = false;
+            this.isDrawing = false;
+        },
+        stopDrawing() {
+            if (this.screenCurrentElement) {
+                if (this.activeTool === "frame" || this.activeTool === "box") {
+                    if (this.screenCurrentElement.width < 0) {
+                        this.screenCurrentElement.width = Math.abs(
+                            this.screenCurrentElement.width
+                        );
+                        this.screenCurrentElement.x -= this.screenCurrentElement.width;
+                    }
+                    if (this.screenCurrentElement.height < 0) {
+                        this.screenCurrentElement.height = Math.abs(
+                            this.screenCurrentElement.height
+                        );
+                        this.screenCurrentElement.y -= this.screenCurrentElement.height;
+                    }
+                }
+            }
+        },
+        redrawCanvas() {
+            this.ctx.save();
+            this.ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+            for (let i = 0; i < this.screenElements.length; i++) {
+                const {
+                    name,
+                    x,
+                    y,
+                    x2,
+                    y2,
+                    width,
+                    height,
+                    type,
+                    text,
+                    font
+                } = this.screenElements[i];
+                if (type === "frame") {
+                    this.ctx.strokeRect(x + 0.5, y + 0.5, width, height);
+                } else if (type === "box") {
+                    this.ctx.fillRect(x, y, width, height);
+                } else if (type === "dot") {
+                    this.ctx.fillRect(x, y, 1, 1);
+                } else if (type === "icon") {
+                    this.ctx.drawImage(this.fuiImages[name].element, x, y);
+                } else if (type === "line") {
+                    const imgData = this.ctx.getImageData(
+                        0,
+                        0,
+                        canvasWidth,
+                        canvasHeight
+                    );
+                    bline(imgData, x, y, x2, y2);
+                    this.ctx.putImageData(imgData, 0, 0);
+                } else if (type === "str") {
+                    const fontSize = this.fontSizes[font];
+                    this.ctx.font = `${fontSize}px ${font}`;
+                    this.ctx.fillText(text, x, y);
+                }
+            }
+            const imgData = this.ctx.getImageData(0, 0, canvasWidth, canvasHeight);
+            const newImgData = maskBlack(imgData);
+            this.ctx.putImageData(newImgData, 0, 0);
+            this.ctx.restore();
+            this.codePreview = generateCode(this.screenElements);
+        },
+        resetScreen() {
+            this.screenElements = [];
+            this.redrawCanvas();
+            this.codePreview = "";
+            this.screenCurrentElement = undefined;
+        },
+        getLayerListItem(element) {
+            if (element.type === "str") {
+                return `${element.text || "Empty str"}`;
+            }
+            if (element.type === "icon") {
+                return `${element.name}`;
+            }
+            return `${element.type}`;
+        },
+        copyCode() {
+            navigator.clipboard.writeText(this.codePreview);
+        },
+        cleanCustomIcons() {
+            this.customImages = [];
+            this.screenElements = this.screenElements.filter(item => !item.custom);
+            this.redrawCanvas();
+            if (this.screenCurrentElement && this.screenCurrentElement.custom) {
+                this.screenCurrentElement = undefined;
+            }
         }
-    })
+    },
+    created() {
+    },
+    mounted() {
+        this.ctx = this.$refs.screen.getContext("2d");
+        this.ctx.strokeWidth = 1;
+        this.ctx.textRendering = "optimizeSpeed";
+
+        document.addEventListener("mouseup", this.canvasMouseUp);
+    }
+})
     .component("fui-button", {
         template: "#fui-button",
         props: {
@@ -636,9 +546,19 @@ ${func}(canvas, ${element.x}, ${element.y}, "${element.text}")`;
                 imagesSrc: [],
             };
         },
+        props: {
+            customImages: Array,
+        },
+        watch: {
+            customImages: function (newVal) {
+                this.prepareImages();
+            }
+        },
         methods: {
+            cleanCustom() {
+                this.$emit("cleanCustomIcons");
+            },
             iconClick(e) {
-                console.log(e.target.dataset.name);
                 this.$emit("iconClicked", e.target.dataset.name);
             },
             iconDragStart(e) {
@@ -647,7 +567,8 @@ ${func}(canvas, ${element.x}, ${element.y}, "${element.text}")`;
             },
             prepareImages() {
                 const fuiImages = {};
-                Object.entries(iconsSrc).forEach((item) => {
+                const imagesArr = [];
+                Object.entries(ICONS_SRC).forEach((item) => {
                     const [name, file] = item;
                     const matchedSizeArr = name.match(/_([0-9]+)x([0-9]+)/i) ? name.match(/_([0-9]+)x([0-9]+)/i) : [0, 10, 10];
                     const [, width, height] = matchedSizeArr.map((num) => parseInt(num, 10));
@@ -656,13 +577,11 @@ ${func}(canvas, ${element.x}, ${element.y}, "${element.text}")`;
                     image.src = src;
                     image.crossOrigin = "Anonymous";
                     fuiImages[name] = {
-                        src: src,
-                        name: name,
                         element: image,
                         width: width,
                         height: height
                     };
-                    this.imagesSrc.push({
+                    imagesArr.push({
                         src: src,
                         name: name,
                         element: image,
@@ -670,9 +589,20 @@ ${func}(canvas, ${element.x}, ${element.y}, "${element.text}")`;
                         height: height
                     });
                 });
-                this.imagesSrc.sort((a, b) => a.width * a.height - b.width * b.height);
+                this.customImages.forEach(icon => {
+                    fuiImages[icon.name] = {
+                        element: icon.element,
+                        width: icon.width,
+                        height: icon.height,
+                        custom: icon.custom,
+                    };
+                });
+                imagesArr.sort((a, b) => a.width * a.height - b.width * b.height);
+                this.imagesSrc = imagesArr;
                 this.$emit("prepareImages", fuiImages);
             }
+        },
+        created() {
         },
         mounted() {
             this.prepareImages();
