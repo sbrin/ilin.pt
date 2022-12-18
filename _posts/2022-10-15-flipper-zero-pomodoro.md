@@ -36,5 +36,3 @@ Other features:
 - Rest timer
 
 The device API is being changed every day so feel free to ask me for an update.
-
-Current version is compatible with firmware v. F81999EA from 14 Oct. 2022
