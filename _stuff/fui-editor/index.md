@@ -1,13 +1,13 @@
 ---
 layout: post
-title: "The Flipper Zero user interface editor"
+title: "The Flipper Zero user interface editor, design builder"
 date: 2022-12-04 12:13
 categories:
 - General
 tags: [petproject, dev, flipperzero, frontend]
 ---
 
-The GUI editor/generator for [Flipper Zero](https://flipperzero.one/).
+The GUI editor/design builder for [Flipper Zero](https://flipperzero.one/).
 
 Draw any graphics and use generated code in your Flipper application!
 
@@ -16,7 +16,13 @@ Draw any graphics and use generated code in your Flipper application!
 * generate and copy the code
 * you have to place icons images to your app assets directory ([download default icons set](assets/assets.zip))
 
-<iframe src="assets/editor.html" width="900" height="750" title="description"></iframe>
+<iframe src="assets/editor.html" width="900" height="800" title="description"></iframe>
+
+#### 01/05/2023 update
+
+* Big numbers font support
+* Disc and circle tools
+* Inverse colors option
 
 #### 18/12/2022 update
 
