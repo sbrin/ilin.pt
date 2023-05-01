@@ -11,12 +11,14 @@ The GUI editor/design builder for [Flipper Zero](https://flipperzero.one/).
 
 Draw any graphics and use generated code in your Flipper application!
 
+[https://github.com/sbrin/flipper-ui-editor](https://github.com/sbrin/flipper-ui-editor)
+
 * drag and drop icons
 * remove, edit elements
 * generate and copy the code
 * you have to place icons images to your app assets directory ([download default icons set](assets/assets.zip))
 
-<iframe src="assets/editor.html" width="900" height="800" title="description"></iframe>
+<iframe src="assets/editor.html?v=1" width="900" height="800" title="description"></iframe>
 
 #### 01/05/2023 update
 
