@@ -41,13 +41,3 @@ No mobile devices support, sorry.
 Send your feedback and questions to **fui@ilin.pt**
 
 [Open in separate page](assets/editor.html)
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-MTTVJVZE13"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-MTTVJVZE13');
-</script>
