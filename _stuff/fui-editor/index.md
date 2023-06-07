@@ -1,13 +1,19 @@
 ---
 layout: post
-title: "The Flipper Zero user interface editor, design builder"
+title: "[DEPRECATED] The Flipper Zero user interface editor, design builder"
 date: 2022-12-04 12:13
 categories:
 - General
 tags: [petproject, dev, flipperzero, frontend]
 ---
 
-The GUI editor/design builder for [Flipper Zero](https://flipperzero.one/).
+## This project is moved to a new, better and improved LOPAKA
+
+## [Lopaka - Embedded graphics builder for U8g2 and Flipper Zero](https://lopaka.app)
+
+Check the announcement post: [Lopaka - Embedded graphics designer and code generator tool](/general/2023/06/07/embedded-screen-graphics-designer.html)
+
+---
 
 Draw any graphics and use generated code in your Flipper application!
 
