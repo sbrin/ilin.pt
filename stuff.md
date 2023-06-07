@@ -10,6 +10,10 @@ permalink: /stuff/
 
 This is a 5th iteration of my minimalistic plywood laptop stand design. Total weight is less than 100 grams and it suits any MacBook. The total raise is 20% higher than any other stand on market. And It costs just 5€ to produce! -->
 
+### [Lopaka - Graphics editor and code generator for ebmedded screens!](/general/2023/06/07/embedded-screen-graphics-designer.html)
+
+A powerful cross-platform graphics editor and code builder designed for embedded systems, making it easy to create high-quality interfaces for your low-end devices.
+
 ### [The GUI editor/generator for Flipper Zero!](/stuff/fui-editor)
 
 Draw any graphics, copy the generated code and use it in your application! 
