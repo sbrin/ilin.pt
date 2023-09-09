@@ -31,26 +31,19 @@ Now it's LOPAKA (guess where that name comes from):
 
 [https://github.com/sbrin/lopaka](https://github.com/sbrin/lopaka)
 
-For now, there's just an editor there without any explanations, and I'll gradually work on everything.
-
-What's new:
+Features:
 - You can choose which library the code will be generated for
 - You can change the screen size (Flipper only has one size)
-- Images are automatically converted to XBMP (not without glitches, unfortunately)
+- Images are automatically converted to XBMP
+- There are four different fonts to choose
 - A pixel grid has appeared
 - Settings are stored in local storage
+- You can make drawings
+- Press **Shift** key to draw straight lines and square frames
 
 ![Lopaka u8g2 editor](/assets/img/2023-06-07-embedded-screen-graphics-designer/lopaka-screenshot.png "Lopaka App for embedded screens")
 
-There's still a lot of work ahead, but I'm not in a hurry. According to the advice of experienced startupers, I started conducting interviews with potential audiences. Huge thanks to everyone who helped me with this. It's really the most useful thing you can do at the start of a project. I learned a lot of new things about developing hardware products and met interesting people.
-
-My plan is to expand the audience as much as possible, add Adafruit GFX and LVGL. These will already be color displays and a more complex code generator. Let's see how it goes.
-
-The long-term goal is to create Figma for embedded devices. With project synchronization, prototyping, teamwork, comments, and a bunch of other stuff.
-
-While the music is playing, I'll be running around the chairs. I'll be happy with any result - from micro-donations on Patreon to venture investments and hundredfold growth.
-
-### Customer development
+### How can you help?
 
 If you like the project and you're an engineer or designer of electronic devices with screen interfaces and are ready for a small interview - I'll be insanely happy to chat. Drop a line to [@ilin_pt](https://twitter.com/ilin_pt) or lopaka@ilin.pt
 
