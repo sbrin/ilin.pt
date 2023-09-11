@@ -9,17 +9,13 @@ summary: I've decided to move forward towards my dream of passive income, fame, 
 feature_image: "https://ilin.pt/assets/img/2023-06-07-embedded-screen-graphics-designer/lopaka-screenshot.png"
 ---
 
-I've decided to move forward towards my dream of fame, and recognition for creating something useful. At the same time, I'm studying how startups are made and going through the founder's journey. Not very intensively, in the breaks between my main job, little by little.
-
-So I won't limit myself to just [Flipper](/stuff/fui-editor). Now it's a universal graphics editor for low-resolution screens on outdated chips 🤡
+**Read the full story of creation of Lopaka in my blog: [The story of Lopaka: How I made Graphics Editor for Arduino, ESP32, FlipperZero](/general/2023/08/02/lopaka-story-dev-log.html)**
 
 **The problem**: it is tiring to create a beautiful interface for electronic devices.
 
 **The solution**: a cross-platform graphic editor with a code builder and component library. Supports popular GUI libraries: Flipper Zero canvas API, U8g2 for monochrome displays, Adafruit GFX Library, embedded-graphics under Rust, LVGL, and more. Accessible from any device and OS via a web application, collaborative work, prototyping, and everything else that Figma is loved for.
 
 My cursory analysis of existing solutions did not yield results: I found only one editor close in functionality (SquareLine) and it is ten years behind and only works with LVGL. Everything else is poor makeshift versions that need to be downloaded, configured, and installed - in general, it is a real headache. For u8g2, there is nothing like it at all.
-
-Do you think it will take off?
 
 ### Meet Lopaka with U8g2 and Arduino graphics!
 
