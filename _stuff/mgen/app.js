@@ -1,4 +1,3 @@
-const API_KEY = 'AIzaSyDdAvWkT3pmqkFhbb6Cte4jx0DZfRzQfNY';
 let googleMarkers = [];
 
 function prepareMarker(icon) {
