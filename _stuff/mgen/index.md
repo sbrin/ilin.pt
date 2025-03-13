@@ -11,7 +11,7 @@ comment: "curl 'https://api-manager-prd-ne.azure-api.net/api/v1/Search/Aggregate
 ---
 <script src="https://unpkg.com/vue@3.2.37/dist/vue.global.prod.js" type="text/javascript"></script>
 <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxwyBxZbZtTzx3uWcSlqncFcDU4kvuE5o"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDdAvWkT3pmqkFhbb6Cte4jx0DZfRzQfNY"
     ></script>
 
 <style>

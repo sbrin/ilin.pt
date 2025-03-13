@@ -6,6 +6,10 @@ collectionpage: stuff
 permalink: /stuff/
 ---
 
+### [Audio Snoop: Monitor Input Live Online Web App](/stuff/audio-snoop)
+
+Plug in, pick your input, play. No more fiddling with Ableton just to hear your guitar. I got tired of the hassle, so Lovable built me a web app that does exactly what I need — quick, simple monitoring that just works.
+
 <!-- ### [Minimalistic Lightweight Laptop Stand DIY](/general/2022/10/15/flipper-zero-pomodoro.html)
 
 This is a 5th iteration of my minimalistic plywood laptop stand design. Total weight is less than 100 grams and it suits any MacBook. The total raise is 20% higher than any other stand on market. And It costs just 5€ to produce! -->

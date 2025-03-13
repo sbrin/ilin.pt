@@ -1,4 +1,4 @@
-const API_KEY = "AIzaSyDxwyBxZbZtTzx3uWcSlqncFcDU4kvuE5o";
+const API_KEY = 'AIzaSyDdAvWkT3pmqkFhbb6Cte4jx0DZfRzQfNY';
 let googleMarkers = [];
 
 function prepareMarker(icon) {
@@ -10,7 +10,7 @@ function prepareMarker(icon) {
         title: item.name,
         label: {
             text: icon,
-            fontSize: "18px",
+            fontSize: '18px',
         },
         dataRecords: {
             name: item.name,
@@ -18,8 +18,8 @@ function prepareMarker(icon) {
             city: item.city,
             address: item.address,
             phone: item.phone,
-        }
-    })
+        },
+    });
 }
 
 Vue.createApp({
@@ -84,13 +84,13 @@ Vue.createApp({
             medics: [],
             wellBeing: [],
             optics: [],
-            filter_city: "Lisboa",
+            filter_city: 'Lisboa',
             filter_clinics: true,
             filter_wellBeing: false,
             filter_optics: false,
             filter_medics: false,
-            filter_providerType: "",
-        }
+            filter_providerType: '',
+        };
     },
     computed: {
         markers() {
@@ -106,21 +106,27 @@ Vue.createApp({
         },
         markersFiltered() {
             return this.markers
-                .filter(item => item.dataRecords.city === this.filter_city)
-                .filter(item => this.filter_providerType ?  item.dataRecords.providerType === this.filter_providerType : true)
+                .filter((item) => item.dataRecords.city === this.filter_city)
+                .filter((item) =>
+                    this.filter_providerType ? item.dataRecords.providerType === this.filter_providerType : true
+                );
         },
         cities() {
-            return this.markers.map(item => item.dataRecords.city)
+            return this.markers
+                .map((item) => item.dataRecords.city)
                 .filter((value, index, self) => {
                     return self.indexOf(value) === index;
-                }).sort();
+                })
+                .sort();
         },
         providerType() {
-            return this.markers.map(item => item.dataRecords.providerType)
+            return this.markers
+                .map((item) => item.dataRecords.providerType)
                 .filter((value, index, self) => {
                     return self.indexOf(value) === index;
-                }).sort();
-        }
+                })
+                .sort();
+        },
     },
     methods: {
         resetMarkers() {
@@ -139,27 +145,26 @@ Vue.createApp({
             this.createMarkers();
         },
         createMarkers() {
-            this.markersFiltered
-                .forEach(item => {
-                    const marker = new google.maps.Marker({
-                        map: this.map,
-                        ...item,
-                    });
-                    marker.addListener("click", () => {
-                        if (this.infowindow) {
-                            this.infowindow.close();
-                        }
-                        this.infowindow = new google.maps.InfoWindow({
-                            content: this.getContentString(marker.dataRecords),
-                        });
-                        this.infowindow.open({
-                            anchor: marker,
-                            map: this.map,
-                            shouldFocus: false,
-                        });
-                    });
-                    googleMarkers.push(marker);
+            this.markersFiltered.forEach((item) => {
+                const marker = new google.maps.Marker({
+                    map: this.map,
+                    ...item,
                 });
+                marker.addListener('click', () => {
+                    if (this.infowindow) {
+                        this.infowindow.close();
+                    }
+                    this.infowindow = new google.maps.InfoWindow({
+                        content: this.getContentString(marker.dataRecords),
+                    });
+                    this.infowindow.open({
+                        anchor: marker,
+                        map: this.map,
+                        shouldFocus: false,
+                    });
+                });
+                googleMarkers.push(marker);
+            });
             if (this.markersFiltered[0]) this.map.setCenter(this.markersFiltered[0].position);
         },
         getContentString(data) {
@@ -169,27 +174,23 @@ Vue.createApp({
                 <br/>
                 ☎️ <a href="tel: ${data.phone}">${data.phone}</a></p>
             `;
-        }
+        },
     },
     mounted() {
-        this.map = new google.maps.Map(
-            this.$refs.map,
-            {
-                zoom: 12,
-                center: this.center,
-            }
-        );
+        this.map = new google.maps.Map(this.$refs.map, {
+            zoom: 12,
+            center: this.center,
+        });
 
-        fetch("mgen.json")
+        fetch('mgen.json')
             .then((result) => result.json())
             .then((json) => {
-                this.clinics = json.clinics.clinics.map(prepareMarker("🏥"));
-                this.optics = json.optics.clinics.map(prepareMarker("👓"));
-                this.wellBeing = json.wellBeing.clinics.map(prepareMarker("💊"));
-                this.medics = json.wellBeing.clinics.map(prepareMarker("🧑🏻‍⚕️"));
+                this.clinics = json.clinics.clinics.map(prepareMarker('🏥'));
+                this.optics = json.optics.clinics.map(prepareMarker('👓'));
+                this.wellBeing = json.wellBeing.clinics.map(prepareMarker('💊'));
+                this.medics = json.wellBeing.clinics.map(prepareMarker('🧑🏻‍⚕️'));
                 this.loaded = true;
             })
             .then(this.createMarkers);
     },
-})
-    .mount("#mgen_app");
+}).mount('#mgen_app');
