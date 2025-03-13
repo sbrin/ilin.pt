@@ -18,8 +18,8 @@ As usual, all I could find was a piece of crap that is impossible to use.
 
 I decided to ease my suffering and in 5 minutes Lovable wrote me a perfect web application: it just works and does exactly what I need.
 
-<script type="module" crossorigin src="/stuff/audio-snoop/assets/index-DeTHg-GZ.js"></script>
-<link rel="stylesheet" crossorigin href="/stuff/audio-snoop/assets/index-Bwof_dl0.css">
+<script type="module" crossorigin src="/stuff/audio-snoop/assets/index-CsgY382j.js"></script>
+<link rel="stylesheet" crossorigin href="/stuff/audio-snoop/assets/index-qZzuxCJ5.css">
 
 
 <div id="root"></div>
