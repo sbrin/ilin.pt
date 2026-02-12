@@ -3,8 +3,7 @@ layout: page
 title: "Vibe-Coding Recovery Retreat"
 permalink: /retreat/
 description: "A 3-night retreat near Lisbon for AI-first builders: nervous system recovery + gentle shipping with structured focus windows and real rest."
-meetup_url: "https://www.meetup.com/Ilin-PT/events/291445256/"
-apply_url: "https://www.meetup.com/Ilin-PT/events/291445256/"
+apply_url: "https://luma.com/8w3vmxvc"
 contact_email: "retreat@ilin.pt"
 date_range: "April 2–5, 2026"
 location_short: "Portugal, near Lisbon (exact location shared after confirmation)"
@@ -13,11 +12,9 @@ spots: 20
 language: "English"
 ---
 
-# Vibe-Coding Recovery Retreat (3 Nights)
 ## Calm your nervous system. Keep your edge.
 **{{ page.date_range }} · {{ page.location_short }} · {{ page.language }} · {{ page.spots }} spots · {{ page.price }}**
 
-[RSVP on Meetup]({{ page.meetup_url }})  
 [Apply / Book]({{ page.apply_url }})
 
 If you’ve been vibe-coding **10–12 hours a day**, you already know the pattern:  
@@ -87,9 +84,7 @@ This keeps the builder identity without letting the build consume your nervous s
 
 ---
 
-## Daily rhythm (3 nights / 2 full days)
-
-## Retreat Flow (3 nights · 4 days) — example schedule (no exact timings)
+## Retreat Flow (3 nights · 4 days)
 
 ### Day 0 — Arrival (soft landing)
 - Check-in + Phone Hotel setup  
