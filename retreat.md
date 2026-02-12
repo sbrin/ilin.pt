@@ -2,117 +2,188 @@
 layout: page
 title: "Vibe-Coding Recovery Retreat"
 permalink: /retreat/
-description: "A 3-night retreat near Lisbon for AI-first builders: recovery + gentle shipping with structured focus windows and real rest."
+description: "A 3-night retreat near Lisbon for AI-first builders: nervous system recovery + gentle shipping with structured focus windows and real rest."
 meetup_url: "https://www.meetup.com/Ilin-PT/events/291445256/"
 apply_url: "https://www.meetup.com/Ilin-PT/events/291445256/"
 contact_email: "retreat@ilin.pt"
-date_range: "April, 2–5, 2026"
+date_range: "April 2–5, 2026"
 location_short: "Portugal, near Lisbon (exact location shared after confirmation)"
-price: "€890"
+price: "€1200"
 spots: 20
+language: "English"
 ---
 
-## Recover your focus. Ship gently. Leave with an operating system.
-
-AI made it easy to ship fast. It also made it easy to run your brain at 110% with no off-switch. This retreat is for AI-first builders who love momentum — and want it to be sustainable.
-
-**{{ page.date_range }}** · **{{ page.location_short }}** · **{{ page.spots }} spots** · **{{ page.price }} per person**
+# Vibe-Coding Recovery Retreat (3 Nights)
+## Calm your nervous system. Keep your edge.
+**{{ page.date_range }} · {{ page.location_short }} · {{ page.language }} · {{ page.spots }} spots · {{ page.price }}**
 
 [RSVP on Meetup]({{ page.meetup_url }})  
+[Apply / Book]({{ page.apply_url }})
+
+If you’ve been vibe-coding **10–12 hours a day**, you already know the pattern:  
+high output, **wired baseline**. Focus fractures, your body stays tense (jaw/neck/shoulders), and “rest” doesn’t fully recharge.
+
+This retreat is a **hard reset** for that mode - grounded, practical, and guided.  
+You’ll arrive overstimulated and running on drive. You’ll leave with a **calmer baseline**, **deeper focus**, a **better sleep rhythm**, and a set of recovery tools you’ve practiced enough to use automatically during normal workdays.
 
 ---
 
-## What this is (and what it isn’t)
+## Why this isn’t “I can detox at home”
+At home you negotiate with your habits all day. Here the **environment + schedule + group container** do the enforcement for you, so willpower isn’t the bottleneck.
 
-This is **recovery + gentle shipping**: you’ll reset your nervous system, rebuild clean focus, and still ship a *small* thing — deliberately, with guardrails.
+Screens aren’t “forbidden”; they’re **bounded**:
 
-Not a party weekend. Not a hardcore silent retreat. Not a “grind harder mastermind”.
+- **Two Work Windows per day (optional):** 2x90 minutes (Wi-Fi on, laptop allowed)
+- **One Admin Window per day:** 30 minutes (messages/logistics)
+- **Outside those windows:** no screens by default (phone stays in a **phone hotel** you can access during windows)
 
----
-
-## Format
-
-**3 nights / 2 full days**  
-- Day 0: arrival, settle, reset the pace  
-- Day 1–2: two full days of structured recovery + shipping windows  
-- Day 3: integration plan + goodbye
-
-**Digital detox, but realistic:** screens are allowed only in **scheduled shipping windows**. Outside those windows: **no screens by default** (calm, not punishment).
+This stops the constant micro-checking loop and gives your attention real room to recover.
 
 ---
 
-## The core idea
+## What you’ll do (and why it works)
 
-High output breaks people mostly through **context chaos**, not “lack of willpower”.  
-So we train two skills:
-1) **Build consciously** (clear constraints, done-definitions, less tool hopping)  
-2) **Pause on purpose** (micro-breaks, grounding, recovery rituals that actually stick)
+### 1) Morning outdoor light (circadian anchor)
+**What:** 5–10 minutes outdoors after waking (longer if cloudy).  
+**Why:** stabilizes sleep-wake timing and daytime alertness.
+
+### 2) Guided NSDR / Yoga Nidra (deep rest without sleeping)
+**What:** 10–30 minutes lying down, guided protocol.  
+**Why:** downshifts the nervous system and restores mental energy without nap grogginess.
+
+### 3) Physiological sigh / cyclic sighing (fast stress downshift)
+**What:** one deep inhale + a short “top-up” inhale + long exhale.  
+**Why:** a simple on-demand “stop button” when you feel wired, anxious, or stuck.
+
+### 4) Desk-tension release (grounding movement, not a workout)
+**What:** daily guided sequences for jaw/neck/shoulders/hips/spine.  
+**Why:** reduces the physical tension that keeps breathing shallow and attention brittle.
+
+### 5) Break practice (micro-breaks you can actually use)
+**What:** rehearse short resets (2–10 minutes): stand + walk, gentle mobility, breath, eyes-to-distance.  
+**Why:** micro-breaks reduce fatigue and improve well-being, especially for knowledge work.
+
+### 6) Sleep wind-down environment (simple, boring, effective)
+**What:** dim evening light, reduce bright overheads, cool/dark sleep space.  
+**Why:** removes the most common sleep disruptors.
+
+**Optional:** caffeine timing  
+**What:** try delaying caffeine ~90–120 minutes after waking (only if you want).  
+**Why:** can reduce mid-day crashes for some people.
 
 ---
 
-## What you’ll do
+## Work with guardrails (no abstraction)
+If you choose to use the Work Windows, we apply constraints that prevent the two classic traps:  
+**infinite iteration** and **tool-hopping**.
 
-- **Shipping windows:** 2 × 90 minutes per day (focused, low-noise)
-- **One short “AI fasting” block daily:** build without AI for a bit — restore confidence and clarity
-- **Nature immersion:** long walks (coast / forest routes)
-- **Recovery practice menu:** breathwork basics, body scan, mobility, simple movement
-- **Buddy review (support, not therapy):** guardrails, clarity, “don’t spiral”
+You’ll be guided to:
+- **Lock scope** for the day (one tiny objective, not “rewrite life”)
+- **Freeze tools** (no new frameworks/agents mid-retreat)
+- **Cap iterations** (stop after N loops -> reset -> decide)
+- **Close the loop** at the end of each window (“what’s done, what’s next, then stop”)
 
----
-
-## What you’ll leave with
-
-- Your personal **Vibe-Coding Operating System**  
-  (AI guardrails, batching rules, limits, reset triggers, notification boundaries)
-- Restored ability to hold **60–90 minutes of deep focus** without jitter
-- A shipped **tiny artifact** (demo / micro-tool / small feature / OSS snippet)
-- A small network of builders who “get it” without backstory
+This keeps the builder identity without letting the build consume your nervous system.
 
 ---
 
-## Who it’s for
+## Daily rhythm (3 nights / 2 full days)
 
-- You build with AI daily (agents, copilots, LLM workflows)
-- You’re shipping a lot — and you feel the mental cost
-- You want recovery without losing ambition
+## Retreat Flow (3 nights · 4 days) — example schedule (no exact timings)
+
+### Day 0 — Arrival (soft landing)
+- Check-in + Phone Hotel setup  
+- Guided calming breath + short body scan  
+- Gentle grounding movement (jaw/neck/shoulders/hips)  
+- Quiet nature walk  
+- Welcome circle  
+- Evening NSDR / Yoga Nidra  
+- Dinner + early wind-down (dim lights, quiet mode)
+
+### Day 1 — Downshift + Focus
+- Morning outdoor light walk (silent)  
+- Grounding movement + calming breath  
+- Optional Work Window #1 (deep focus, bounded)  
+- Admin window  
+- Nature block + walking meditation  
+- Lunch offline  
+- Midday NSDR / Yoga Nidra  
+- Somatic grounding lab (tension release + orienting)  
+- Optional Work Window #2  
+- Tea ceremony (mindful tasting, screen-free)
+- Micro-break practice (2/5/12-minute resets)  
+- Evening wind-down + short Nidra + quiet mode
+
+### Day 2 — Stabilize + Make it stick
+- Morning outdoor light walk (silent)  
+- Grounding movement + breath  
+- AI-fast focus sprint (no AI)  
+- Optional Work Window #1 (buddy guardrails)  
+- Admin window  
+- Longer nature block + walking meditation + silent time  
+- Midday NSDR / Yoga Nidra  
+- Stress-to-skill session (stop signals + reset actions)  
+- Optional Work Window #2  
+- Tea ceremony (mindful tasting, screen-free)  
+- Somatic release session + optional sauna/hot shower ritual  
+- Evening wind-down + short Nidra + quiet mode
+
+### Day 3 — Goodbye (integration + departure)
+- Morning outdoor light + grounding movement  
+- Short NSDR / Yoga Nidra  
+- “Keep it at home” session (daily recovery + screen boundaries + reset protocol)  
+- Closing circle  
+- Departures
+
+---
+
+## Food & Drinks (simple, flexible)
+- **Breakfast included (basic):** coffee, tea, cookies + standard breakfast items.
+- **All day:** tea/coffee station (and small snacks).
+- **Lunch:** we’ll usually go to a **nearby restaurant** together (pay-your-own / choose your own).
+- **Dinner:** **optional** (light, home-style). **Vegetarian/vegan option** available **by request** (tell us in advance).
+- **Tea ceremony:** included on **Day 1** and **Day 2** (screen-free).
+
+---
+
+## Who this is for
+AI-first builders (engineers/founders/solo makers) who ship hard and feel the cost:  
+scattered focus, wired baseline, restless sleep, constant stimulation.
 
 ## Who it’s not for
-
-- You want a party trip
-- You want a strict silent monastery
-- You want a hustle culture mastermind
-
----
-
-## Location & logistics
-
-**Near Lisbon, Portugal.** Exact venue shared after confirmation (privacy + logistics).  
-Language: **English**.  
-Group size: **16** (quality > scale).
-
-Price: **{{ page.price }} per person** (paid upfront to secure your spot).
-
-Questions: **[{{ page.contact_email }}](mailto:{{ page.contact_email }})**
+- Party weekend
+- Hardcore silent retreat
+- Grind harder mastermind
 
 ---
 
-## FAQ
+## Logistics
+- **Dates:** {{ page.date_range }} (3 nights)
+- **Location:** {{ page.location_short }}
+- **Language:** {{ page.language }}
+- **Capacity:** {{ page.spots }} spots
+- **Price:** **{{ page.price }} per person** (paid upfront to secure your seat)
 
-**Will I be forced to talk in groups?**  
-No. Quiet is the default. Social is optional and structured.
-
-**Can I still work a bit?**  
-Yes — inside scheduled shipping windows. Outside: recovery mode.
-
-**What should I bring?**  
-Comfortable walking shoes, layers for evenings, a notebook. Laptop is optional.
-
-**What exactly do I ship?**  
-Something intentionally small. You’ll leave with a finished artifact, not a new obsession.
+- **RSVP:** [Meetup]({{ page.meetup_url }})
+- **Apply / Book:** [Reserve your seat]({{ page.apply_url }})
+- **Contact:** [{{ page.contact_email }}](mailto:{{ page.contact_email }})
 
 ---
 
-## Ready?
+## FAQ (common fears)
+**I’m introverted.**  
+Quiet is the default. Social is structured and optional.
+
+**I can’t be offline.**  
+You’re not. You have an Admin Window + two Work Windows daily.
+
+**I don’t do woo.**  
+Same. This is practical: breath, deep rest, light, sleep environment, gentle movement.
+
+**I just want to rest, not work.**  
+Totally valid. Work windows are optional; the core is recovery.
+
+---
 
 [RSVP on Meetup]({{ page.meetup_url }})  
 [Apply / Book]({{ page.apply_url }})
