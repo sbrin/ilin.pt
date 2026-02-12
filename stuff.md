@@ -6,9 +6,15 @@ collectionpage: stuff
 permalink: /stuff/
 ---
 
+### [Dictant: Minimalistic dictation app for Mac](/stuff/dictant)
+
+I built Dictant because I wanted instant voice-to-text on macOS without bloated software. Hold right Command, talk, release, and get polished text via Whisper (plus optional ChatGPT cleanup). Open source, no paywall.
+
+
 ### [Audio Snoop: Monitor Input Live Online Web App](/stuff/audio-snoop)
 
 Plug in, pick your input, play. No more fiddling with Ableton just to hear your guitar. I got tired of the hassle, so Lovable built me a web app that does exactly what I need — quick, simple monitoring that just works.
+
 
 <!-- ### [Minimalistic Lightweight Laptop Stand DIY](/general/2022/10/15/flipper-zero-pomodoro.html)
 
