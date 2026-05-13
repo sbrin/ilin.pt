@@ -60,6 +60,6 @@ You can become a sponsor — see sponsorship options on my [GitHub profile](http
 
 ### Follow Us on social media:
 
-https://twitter.com/lopaka_app
+[https://twitter.com/lopaka_app](https://twitter.com/lopaka_app)
 
-https://www.instagram.com/lopaka_app/
+[https://www.instagram.com/lopaka_app/](https://www.instagram.com/lopaka_app/)

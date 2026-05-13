@@ -94,13 +94,13 @@ The long-term goal is to make Figma for embedded devices. With project synchroni
 
 Right now I'm experimenting with low-code, I really liked how quickly you can assemble an application, including the server part, with Noodl. I am already preparing a version of the application with registration and SMS for a limited audience. There you will be able to save projects in the cloud and store several screens in one project at once.
 
-If you want to try it first — sign up through the form: https://airtable.com/apps27BkejrUF0DWT/shrrfgmWJQnhM0dGY
+If you want to try it first — sign up through the form: [https://airtable.com/apps27BkejrUF0DWT/shrrfgmWJQnhM0dGY](https://airtable.com/apps27BkejrUF0DWT/shrrfgmWJQnhM0dGY)
 
 ## What's inside?
 
 This is a simple application on VueJS and pure JavaScript. Canvas is used for rendering. I'm not chasing super fast or high-quality code. It's important for me that the application solves the user's tasks.
 
-The source code is open: https://github.com/sbrin/lopaka
+The source code is open: [https://github.com/sbrin/lopaka](https://github.com/sbrin/lopaka)
 
 The main difficulty was providing a complete WYSIWYG pixel-perfect effect. So that what we see in editor 1 in 2 matches what you will see on the device. I had to figure out the format of fonts used in electronics, convert them and display them beautifully in the canvas.
 
