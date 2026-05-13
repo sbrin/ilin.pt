@@ -16,5 +16,5 @@ It uses OpenAI Whisper for transcription, can run an optional ChatGPT cleanup pa
 
 No subscriptions, no paywall. It is free and open source, you only pay for your OpenAI API usage.
 
-- GitHub: https://github.com/sbrin/Dictant
-- Latest release: https://github.com/sbrin/Dictant/releases
+- GitHub: [sbrin/Dictant](https://github.com/sbrin/Dictant)
+- Latest release: [Dictant releases](https://github.com/sbrin/Dictant/releases)
