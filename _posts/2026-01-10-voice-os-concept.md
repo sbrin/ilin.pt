@@ -3,14 +3,14 @@ layout: post
 title: "Why We Need a Voice OS: Beyond the Cursor Interface"
 date: 2026-01-10 21:07
 categories:
-- General
+  - General
 tags: [voice, ai, productivity, future]
 summary: Cursor is becoming people's operating system — but the interface is all wrong. Voice is the natural next step.
 ---
 
 For the past couple of weeks I've been actively working on a speech recognition and dictation app. Along the way I keep getting ideas for new features. For example, I immediately added an output processing option where you can enter a prompt and it'll run your transcript through GPT.
 
-Spinning up all these ideas in my head, seasoning them with content from my info feed, I came to the conclusion that the [voice OS](https://t.me/woomoo/300) concept — or a voice operating system — isn't actually crazy!
+Spinning up all these ideas in my head, seasoning them with content from my info feed, I came to the conclusion that the voice OS concept — or a voice operating system — isn't actually crazy!
 
 I've noticed that many people are starting to use Cursor as the central hub for organizing their life and business. They store information about themselves, their projects, connect various MCPs and agents, fully managing their lives through this interface. [Example 1](https://t.me/cryptoEssay/2764) and [example two](https://t.me/vsevolodustinovchannel/2663).
 
@@ -25,4 +25,3 @@ I want to automate managing various interfaces and agents and make it accessible
 For example, I'd like to reply to emails by voice. Sure, I open the email client with a mouse, but then I don't need to click through folders, search for emails. It's enough to tell the voice agent to open an email from a specific person and draft a reply, schedule a meeting — that would be perfect.
 
 The Voice OS operating system concept fits this vision of the future. Curious what you think about this, cool or sketchy?
-

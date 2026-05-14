@@ -7,7 +7,7 @@
 
           <h2><a href="{{ site.baseurl }}{{ page.url }}">{{ page.title }}</a></h2>
           {% include post-meta.html %}
-          {{ page.excerpt | markdownify }}
+          {{ page.content | markdownify }}
 
         </article>
       </li>
@@ -24,7 +24,7 @@
 
           <h2><a href="{{ site.baseurl }}{{ page.url }}">{{ page.title }}</a></h2>
           {% include post-meta.html %}
-          {{ page.excerpt | markdownify }}
+          {{ page.content | markdownify }}
 
         </article>
       </li>
