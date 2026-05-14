@@ -3,12 +3,10 @@ layout: post
 title: "I Built Dictant — A Native Mac Dictation App"
 date: 2026-02-19 09:36
 categories:
-- General
+  - General
 tags: [macos, swift, open-source, productivity]
 summary: Dictant is a lightweight, native SwiftUI Mac app for voice-to-text using OpenAI's Whisper API. No Electron, no bloat.
 ---
-
-**Things I've Built**
 
 I love dictating text for working with agents. And honestly, for chatting on Telegram too. I often dictate posts for this channel by voice. The only problem is that Apple's built-in tools are terrible at recognizing Russian speech and even worse at punctuation — basically, using them is a pain. There are plenty of apps out there that can work with AI, even local models.
 
@@ -28,4 +26,3 @@ Open source, distributed as a pkg — you'll need to go into Security settings t
 [https://github.com/sbrin/Dictant/releases](https://github.com/sbrin/Dictant/releases)
 
 What do you think?
-
