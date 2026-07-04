@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Madeira Places Map</title>
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="preconnect" href="https://tile.openstreetmap.org">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <style>
+    :root {
+      --ink: #20231f;
+      --muted: #686d61;
+      --paper: #f5f0e6;
+      --panel: #fffaf0;
+      --line: rgba(32, 35, 31, .14);
+      --hotel: #2f6b57;
+      --food: #b4532a;
+      --see: #276b9f;
+      --hike: #6a7330;
+      --beach: #1f8a9b;
+      --shadow: 0 18px 60px rgba(40, 39, 32, .18);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 12% 8%, rgba(47, 107, 87, .16), transparent 32rem),
+        radial-gradient(circle at 88% 14%, rgba(180, 83, 42, .12), transparent 28rem),
+        linear-gradient(135deg, #f6f1e7 0%, #ebe4d6 100%);
+      color: var(--ink);
+      font-family: Charter, "Iowan Old Style", Georgia, serif;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: minmax(380px, 31vw) 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      max-height: 100vh;
+      padding: 22px;
+      border-right: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .brand {
+      display: grid;
+      gap: 10px;
+      padding: 6px 2px 0;
+    }
+
+    h1 {
+      max-width: 9ch;
+      margin: 0;
+      font-size: clamp(40px, 5vw, 76px);
+      line-height: .88;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .lede {
+      max-width: 42ch;
+      margin: 0;
+      color: var(--muted);
+      font: 15px/1.45 Avenir, "Trebuchet MS", sans-serif;
+    }
+
+    .controls {
+      display: grid;
+      gap: 12px;
+    }
+
+    .search {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 250, 240, .82);
+      color: var(--ink);
+      padding: 13px 14px;
+      outline: none;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7);
+      font: 15px/1.2 Avenir, "Trebuchet MS", sans-serif;
+    }
+
+    .search:focus {
+      border-color: rgba(47, 107, 87, .55);
+      box-shadow: 0 0 0 4px rgba(47, 107, 87, .12);
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 250, 240, .68);
+      color: var(--muted);
+      padding: 6px 12px;
+      cursor: pointer;
+      font: 700 12px/1 Avenir, "Trebuchet MS", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .chip.active {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: #fffaf0;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+
+    .stat {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 250, 240, .54);
+      padding: 9px 10px;
+      font: 12px/1.15 Avenir, "Trebuchet MS", sans-serif;
+    }
+
+    .stat strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 18px;
+      color: var(--ink);
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+      min-height: 0;
+      padding-right: 5px;
+      overflow: auto;
+      scrollbar-width: thin;
+    }
+
+    .place {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 250, 240, .72);
+      padding: 13px;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+
+    .place:hover,
+    .place.selected {
+      border-color: rgba(32, 35, 31, .36);
+      background: rgba(255, 250, 240, .96);
+      transform: translateY(-1px);
+    }
+
+    .place-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .place h2 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+
+    .badge {
+      flex: 0 0 auto;
+      border-radius: 999px;
+      padding: 5px 8px;
+      color: white;
+      font: 700 10px/1 Avenir, "Trebuchet MS", sans-serif;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .badge.hotel {
+      background: var(--hotel);
+    }
+
+    .badge.food {
+      background: var(--food);
+    }
+
+    .badge.see {
+      background: var(--see);
+    }
+
+    .badge.hike {
+      background: var(--hike);
+    }
+
+    .badge.beach {
+      background: var(--beach);
+    }
+
+    .note {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font: 14px/1.38 Avenir, "Trebuchet MS", sans-serif;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+      font: 700 12px/1 Avenir, "Trebuchet MS", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+    }
+
+    .links a {
+      color: var(--ink);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    .map-wrap {
+      position: relative;
+      min-height: 100vh;
+      padding: 18px;
+    }
+
+    #map {
+      width: 100%;
+      height: calc(100vh - 36px);
+      border: 1px solid rgba(32, 35, 31, .18);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      background: #cfd8c9;
+    }
+
+    .map-note {
+      position: absolute;
+      z-index: 500;
+      right: 32px;
+      bottom: 32px;
+      max-width: 360px;
+      border: 1px solid rgba(32, 35, 31, .16);
+      border-radius: 8px;
+      background: rgba(255, 250, 240, .9);
+      padding: 11px 13px;
+      color: var(--muted);
+      box-shadow: 0 8px 30px rgba(32, 35, 31, .12);
+      font: 12px/1.35 Avenir, "Trebuchet MS", sans-serif;
+      backdrop-filter: blur(10px);
+    }
+
+    .pin {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border: 2px solid #fffaf0;
+      border-radius: 50% 50% 50% 8px;
+      color: white;
+      box-shadow: 0 8px 20px rgba(32, 35, 31, .28);
+      transform: rotate(-45deg);
+      font: 800 12px/1 Avenir, "Trebuchet MS", sans-serif;
+    }
+
+    .pin span {
+      transform: rotate(45deg);
+    }
+
+    .pin.hotel {
+      background: var(--hotel);
+    }
+
+    .pin.food {
+      background: var(--food);
+    }
+
+    .pin.see {
+      background: var(--see);
+    }
+
+    .pin.hike {
+      background: var(--hike);
+    }
+
+    .pin.beach {
+      background: var(--beach);
+    }
+
+    .leaflet-popup-content-wrapper {
+      border-radius: 8px;
+      background: #fffaf0;
+      color: var(--ink);
+    }
+
+    .leaflet-popup-content {
+      width: 240px;
+      margin: 14px;
+      font-family: Avenir, "Trebuchet MS", sans-serif;
+    }
+
+    .popup-title {
+      margin: 0 0 8px;
+      font: 700 17px/1.12 Charter, "Iowan Old Style", Georgia, serif;
+    }
+
+    .popup-note {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .popup-link {
+      display: inline-block;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .empty {
+      display: none;
+      border: 1px dashed rgba(32, 35, 31, .24);
+      border-radius: 8px;
+      padding: 18px;
+      color: var(--muted);
+      font: 14px/1.4 Avenir, "Trebuchet MS", sans-serif;
+    }
+
+    @media (max-width: 900px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        max-height: none;
+        overflow: visible;
+      }
+
+      .map-wrap {
+        order: -1;
+        min-height: 58vh;
+        padding: 10px;
+      }
+
+      #map {
+        height: 58vh;
+      }
+
+      h1 {
+        max-width: none;
+        font-size: 44px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .map-note {
+        right: 20px;
+        bottom: 20px;
+        left: 20px;
+        max-width: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <aside class="sidebar">
+      <section class="brand" aria-label="Intro">
+        <h1>Madeira Map</h1>
+        <p class="lede">Отели, еда, пляжи, прогулки и хайки из исходного списка. Маркеры кликабельны; список фильтруется и открывает точку на карте.</p>
+      </section>
+
+      <section class="controls" aria-label="Controls">
+        <input id="search" class="search" type="search" placeholder="Найти место, блюдо, район..." autocomplete="off">
+        <div id="filters" class="chips" aria-label="Category filters"></div>
+        <div id="stats" class="stats" aria-label="Category counts"></div>
+      </section>
+
+      <section id="list" class="list" aria-label="Places list"></section>
+      <div id="empty" class="empty">Ничего не найдено. Попробуй убрать фильтр или изменить запрос.</div>
+    </aside>
+
+    <section class="map-wrap" aria-label="Map">
+      <div id="map"></div>
+      <div class="map-note">База: OpenStreetMap + Leaflet, без ключей и авторизации. Координаты сохранены прямо в HTML, поэтому страницу можно свободно править и переносить.</div>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const categories = {
+      all: { label: "Все", short: "All" },
+      hotel: { label: "Отели", short: "Hotel" },
+      food: { label: "Поесть", short: "Food" },
+      beach: { label: "Пляжи", short: "Beach" },
+      see: { label: "Смотреть", short: "See" },
+      hike: { label: "Хайки", short: "Hike" }
+    };
+
+    const places = [
+      { id: "savoy-palace-hotel", category: "hotel", name: "Savoy Palace", note: "Фуншал, юг острова.", lat: 32.643588, lng: -16.9208705, url: "https://maps.app.goo.gl/5UqF6PMUFqtHQW2a9" },
+      { id: "reids-palace", category: "hotel", name: "Reid's Palace, A Belmond Hotel", note: "Фуншал, юг острова.", lat: 32.640614, lng: -16.9239058, url: "https://www.belmond.com/hotels/europe/portugal/madeira/belmond-reids-palace/" },
+      { id: "quinta-do-furao", category: "hotel", name: "Hotel Quinta do Furao", note: "Сантана, север острова.", lat: 32.824085, lng: -16.8849293, url: "https://maps.app.goo.gl/ndwNY9MCTSoajXcm7" },
+
+      { id: "land-food-coffee", category: "food", name: "Land Food & Coffee", note: "Своя обжарка кофе.", lat: 32.6753684, lng: -16.9001725, url: "https://goo.gl/maps/6jgKszunaJKhGcjh6" },
+      { id: "gato-legal", category: "food", name: "Gato Legal Coffee Roastery", note: "Своя обжарка кофе.", lat: 32.813466, lng: -17.2462691, url: "https://goo.gl/maps/u3UwgKfpNuoGTZgM9" },
+      { id: "art-food-corner-forum", category: "food", name: "Art Food Corner Forum", note: "Своя обжарка кофе.", lat: 32.6383923, lng: -16.9442976, url: "https://goo.gl/maps/XCZRuBjNauTKGLZZ9" },
+      { id: "slice", category: "food", name: "SlicE", note: "Кофе, десерт, завтраки; открыли русскоговорящие, есть наполеоны.", lat: 32.6484251, lng: -16.9071624, url: "https://goo.gl/maps/gmXJsjahjakiNBaq7" },
+      { id: "brunch-club", category: "food", name: "Brunch Club", note: "Завтраки.", lat: 32.6507611, lng: -16.9077605, url: "https://goo.gl/maps/qCdeVsV34jh4rVJy8" },
+      { id: "arbor-food-coffee", category: "food", name: "Arbor Food & Coffee", note: "Завтраки.", lat: 32.6461162, lng: -16.9150458, url: "https://maps.app.goo.gl/6GgNGpAYyWCAaqq17" },
+      { id: "planalto", category: "food", name: "Planalto, Caminho do Ribeiro", note: "Отличный местный сервис; пробовать осьминога.", lat: 32.7092397, lng: -17.1170532, url: "https://goo.gl/maps/WgbZ8sYBxgNjA1YG9" },
+      { id: "vila-da-carne", category: "food", name: "Restaurante Vila Da Carne", note: "Взять стейк на камне или эшпетаду на лавровом.", lat: 32.6494371, lng: -16.9755533, url: "https://goo.gl/maps/uVUg5zSGPeKXzC3M7" },
+      { id: "santo-antonio", category: "food", name: "Restaurante Santo Antonio", note: "Взять эшпетаду и салат.", lat: 32.6727778, lng: -16.9819444, url: "https://goo.gl/maps/sfKbwE2kr8iYk4fh8" },
+      { id: "abrigo-do-pastor", category: "food", name: "Abrigo do Pastor restaurant", note: "Аутентичное заведение с историей; понравилось блюдо из кролика.", lat: 32.6952341, lng: -16.8770753, url: "https://goo.gl/maps/du9J1CfUVmi6W74bA" },
+      { id: "talho-do-canico", category: "food", name: "Talho do Canico", note: "Вкусная эшпетада.", lat: 32.6525522, lng: -16.8400372, url: "https://maps.app.goo.gl/vsVBABHs8efimjf68" },
+      { id: "novos-sabores", category: "food", name: "Patisserie Novos Sabores", note: "Французская пекарня со вкусными эклерами.", lat: 32.642494, lng: -16.9484707, url: "https://maps.app.goo.gl/SA5fZGCaKaXFetTB7" },
+      { id: "loft-brunch", category: "food", name: "LOFT brunch", note: "Завтраки.", lat: 32.6369727, lng: -16.9398231, url: "https://maps.app.goo.gl/67mmD8RMEfi1m3eSA" },
+      { id: "loft-praca", category: "food", name: "Loft - Brunch & Cocktails, Praca", note: "Завтраки.", lat: 32.6506363, lng: -16.9068817, url: "https://maps.app.goo.gl/fysxF7pzetL9F9Df9" },
+      { id: "tasquinha-henrique", category: "food", name: "Tasquinha do Henrique", note: "Самые вкусные lapas на пляже.", lat: 32.6976301, lng: -17.1300421, url: "https://maps.app.goo.gl/ofS3kKyLUJ2emL7dA" },
+      { id: "bela-5", category: "food", name: "Bela 5 Snack Bar", note: "Готовят вкусные прего и рыбу.", lat: 32.6486547, lng: -16.901119, url: "https://maps.app.goo.gl/QYz8xbNhNBqCZ6a36" },
+      { id: "galaxia", category: "food", name: "Galaxia Skyfood", note: "Рыбный в Savoy с красивым видом.", lat: 32.6437633, lng: -16.9198449, url: "https://maps.app.goo.gl/3aqjWmpjUUMkyuZy5" },
+      { id: "blandys", category: "food", name: "Blandy's Wine Lodge", note: "Винный погреб и дегустации.", lat: 32.6478698, lng: -16.9106236, url: "https://maps.app.goo.gl/gCGjAF97nCkaMtA29", extraUrl: "https://guide.michelin.com/en/pt/ilha-da-madeira/restaurants", extraLabel: "Michelin guide" },
+      { id: "filhos-dmar", category: "food", name: "Bar Filhos D' Mar", note: "Можно попробовать много разных понш.", lat: 32.6485361, lng: -16.9752375, url: "https://maps.app.goo.gl/VW5y26yqo9QEeSVi7" },
+      { id: "nomade", category: "food", name: "NOMADE Restaurante", note: "Обед/ужин; открыли русскоговорящие, норм сервис и еда.", lat: 32.6431573, lng: -16.9200785, url: "https://maps.app.goo.gl/aiEz6guzDa32emtZA" },
+      { id: "il-gallo", category: "food", name: "Il Gallo d'Oro", note: "Выделяется в Michelin guide: 2 звезды.", lat: 32.6383171, lng: -16.9263935, url: "https://goo.gl/maps/aYHEGBra8Bdmfxrn6", extraUrl: "https://guide.michelin.com/en/pt/ilha-da-madeira/restaurants", extraLabel: "Michelin guide" },
+
+      { id: "porto-moniz-pools", category: "beach", name: "Porto Moniz Natural Swimming Pools", note: "Природный лавовый бассейн. В списке пляжей: на Мадейре мало пляжей с черным песком, остальные в основном галька.", lat: 32.8685878, lng: -17.170627, url: "https://goo.gl/maps/X7Xevw8z41pLuzQo7" },
+      { id: "seixal-beach", category: "beach", name: "Praia do Porto do Seixal", note: "Небольшой общественный пляж с черным песком.", lat: 32.8222825, lng: -17.1030977, url: "https://goo.gl/maps/uc1ACVzkdfvRSvQi9" },
+      { id: "prainha-canical", category: "beach", name: "Prainha do Canical", note: "Маленький пляж с черным песком.", lat: 32.7428703, lng: -16.7160549, url: "https://goo.gl/maps/WS8Vb2AKc1JShScT7" },
+      { id: "banda-alem", category: "beach", name: "Praia da Banda Alem", note: "Небольшой пляж, желтый песок и волейбол.", lat: 32.7184246, lng: -16.7622592, url: "https://maps.app.goo.gl/BkvNQmthJ5AuJAFc9" },
+      { id: "porto-santo", category: "beach", name: "Porto Santo", note: "Соседний маленький остров со своей природой и 9 км песчаным пляжем; можно долететь или доплыть на пароме.", lat: 33.0759749, lng: -16.3346061, url: "https://maps.app.goo.gl/Y2owJn8Mefasw2NG9" },
+
+      { id: "fanal", category: "see", name: "Fanal", note: "Красивый лавровый лес, где бывает туман; там снимали Звездные войны.", lat: 32.8096141, lng: -17.1438626, url: "https://goo.gl/maps/WSkgja1ykdz3fbuB8" },
+      { id: "garganta-funda", category: "see", name: "Miradouro da Garganta Funda", note: "Один из самых высоких водопадов Мадейры; лучше после дождей.", lat: 32.8200603, lng: -17.2511614, url: "https://maps.app.goo.gl/tZ7n7pUWuUaerp8F8" },
+      { id: "ponta-do-pargo", category: "see", name: "Farol da Ponta do Pargo", note: "Закат на самой западной точке острова у маяка.", lat: 32.8139006, lng: -17.2630711, url: "https://goo.gl/maps/LwiLCt6cGaAHNwLR8" },
+      { id: "ilha-das-aves", category: "see", name: "Ilha das Aves Madeira Lda", note: "Небольшой парк с 300 экзотическими птицами.", lat: 32.6638386, lng: -17.0345498, url: "https://goo.gl/maps/yVQNvtM9eTv4tWMN9" },
+      { id: "monte-palace", category: "see", name: "Monte Palace Madeira", note: "Большой парк с цветами, птицами и усадьбами.", lat: 32.6755426, lng: -16.9006238, url: "https://goo.gl/maps/hYT56VBtw7LH51vm8" },
+      { id: "farmers-market", category: "see", name: "Farmers' Market", note: "Традиционный крытый рынок, открыт в 1940 году.", lat: 32.6485249, lng: -16.9041662, url: "https://goo.gl/maps/KQnwjB7mmY2aony76" },
+      { id: "casino", category: "see", name: "Casino da Madeira", note: "Казино в Фуншале.", lat: 32.6440249, lng: -16.9162714, url: "https://goo.gl/maps/zv2PbD4cDbLaFyK79" },
+      { id: "paragliding", category: "see", name: "Madeira Paragliding", note: "Полеты на парапланах.", lat: 32.7081899, lng: -17.1407959, url: "https://goo.gl/maps/HHCHF3DN72thSDAo9" },
+      { id: "cabo-girao", category: "see", name: "Cabo Girao Skywalk", note: "Высокий мыс 580 м; стеклянный пол на смотровой площадке.", lat: 32.6565282, lng: -17.004426, url: "https://goo.gl/maps/t53k9sw17WTDEvPTA" },
+      { id: "savoy-spa", category: "see", name: "Savoy Palace Spa", note: "Хороший спа-комплекс за 50 евро в день; напоминает Энкор в Москве, но меньше.", lat: 32.643588, lng: -16.9208705, url: "https://goo.gl/maps/MfjT94v3p7EfNtS88" },
+      { id: "bonita", category: "see", name: "Bonita da Madeira", note: "Забронировать место на общей яхте и поплавать вдоль острова. Точка поставлена на Marina do Funchal.", lat: 32.646659, lng: -16.912034, url: "https://bonitadamadeira.com/" },
+      { id: "epic-madeira", category: "see", name: "EPIC Madeira", note: "Каньонинг в группе с классной организацией похода; запись онлайн.", lat: 32.6694417, lng: -16.9027702, url: "https://goo.gl/maps/CXuVZDiR8bKsMW15A" },
+      { id: "h2o-madeira", category: "see", name: "H2O Madeira", note: "Уплыть и понаблюдать за китами и дельфинами.", lat: 32.7177442, lng: -17.1705011, url: "https://goo.gl/maps/vz2ns596wtip7JUC7" },
+      { id: "guindaste", category: "see", name: "Miradouro do Guindaste", note: "Классная смотровая с небольшими стеклянными выступами.", lat: 32.7941238, lng: -16.8494419, url: "https://maps.app.goo.gl/zJ8K1bL6ZnZnSSSy6" },
+      { id: "ribeira-janela", category: "see", name: "Praia da Ribeira da Janela", note: "Neptun fingers; красивое место, где тоже снимали Звездные войны.", lat: 32.8556953, lng: -17.1531176, url: "https://maps.app.goo.gl/hJ1rwMT7sHocWuMF7" },
+      { id: "encanto", category: "see", name: "Miradouro do Encanto", note: "Вьюпоинт на Долину монахинь; тупиковая дорога, надо возвращаться.", lat: 32.7133734, lng: -16.9636091, url: "https://maps.app.goo.gl/J8MvWynaXkR2oT749" },
+      { id: "cr7", category: "see", name: "Museu CR7", note: "Музей Криштиану Роналду.", lat: 32.6441738, lng: -16.9139167, url: "https://maps.app.goo.gl/6prtpLwzbjMaJGHs8" },
+      { id: "palheiro-golf", category: "see", name: "Palheiro Golf", note: "Поля для гольфа.", lat: 32.653133, lng: -16.872157, url: "https://maps.app.goo.gl/5tskPr3wPPXJTKQZ7" },
+      { id: "theme-park", category: "see", name: "Parque Tematico da Madeira", note: "Местный тематический парк; треугольные домики Сантаны; больше для детей.", lat: 32.8032197, lng: -16.8843985, url: "https://maps.app.goo.gl/ZdTXjdnXPiEDFW6V6" },
+      { id: "karting", category: "see", name: "Pista de Karting", note: "Картинг в ущелье.", lat: 32.7871697, lng: -16.8520138, url: "https://maps.app.goo.gl/KTYuWtNah4ve54S87" },
+      { id: "indoor-kart", category: "see", name: "Indoor Kart Madeira", note: "Картинг между колонн под взлетно-посадочной площадкой аэропорта.", lat: 32.706718, lng: -16.765786, url: "https://maps.app.goo.gl/Hmqde62KWgW3eP6p6" },
+
+      { id: "pr1", category: "hike", name: "PR1 Vereda do Areeiro - Pico Ruivo", note: "Hard. Можно просто приехать на вершину; сам хайк сложный, много лестниц.", lat: 32.7353033, lng: -16.9288461, url: "https://goo.gl/maps/TcKMetEWrhW3xGe3A", extraUrl: "https://walkmeguide.com/en/madeira/trail/15/vereda-do-areeiro-pico-ruivo-pr1/", extraLabel: "WalkMe" },
+      { id: "pr8", category: "hike", name: "PR8 Vereda da Ponta de Sao Lourenco", note: "Medium. Baia d'Abra - Cais do Sardinha.", lat: 32.7430249, lng: -16.700868, url: "https://goo.gl/maps/Zezw6bnSbppvffk69", extraUrl: "https://walkmeguide.com/en/madeira/trail/2/vereda-da-ponta-de-sao-lourenco-pr8/", extraLabel: "WalkMe" },
+      { id: "levada-moinho", category: "hike", name: "Levada do Moinho - Levada Nova", note: "Easy.", lat: 32.6895235, lng: -17.0914858, url: "https://goo.gl/maps/fRnKG19zzxv9RBks5", extraUrl: "http://walkmeguide.com/pt/madeira/trail/24/levada-do-moinho/", extraLabel: "WalkMe" },
+      { id: "pr6", category: "hike", name: "PR6 25 Fontes", note: "Объединить несколько маршрутов; получится hard.", lat: 32.7552413, lng: -17.134537, url: "https://maps.app.goo.gl/7nt6GoTwFkTJB1RcA", extraUrl: "https://walkmeguide.com/en/madeira/trail/26/rabacal-levada-das-25-fontes-e-risco-pr6/", extraLabel: "WalkMe" },
+      { id: "pr62", category: "hike", name: "PR 6.2 Vereda da Lagoa do Vento - Levada do Alecrim", note: "Hard.", lat: 32.7535642, lng: -17.132658, url: "https://maps.app.goo.gl/HsFesesW37ocgmsJ9", extraUrl: "https://www.alltrails.com/trail/portugal/madeira--2/pr-6-2-levada-do-alecrim-vereda-da-lagoa-do-vento", extraLabel: "AllTrails" },
+      { id: "pr9", category: "hike", name: "PR9 Levada do Caldeirao Verde", note: "Easy. Queimadas - Caldeirao Verde - Caldeirao do Inferno.", lat: 32.7835459, lng: -16.9070149, url: "https://goo.gl/maps/Vdek98EjCFomT2Ea9", extraUrl: "https://walkmeguide.com/en/madeira/trail/4/levada-do-caldeirao-verde-pr9/", extraLabel: "WalkMe" },
+      { id: "pr11", category: "hike", name: "PR11 Vereda dos Balcoes", note: "Very easy. Ribeiro Frio - Balcoes.", lat: 32.7355306, lng: -16.8863749, url: "https://goo.gl/maps/Fb7fCE28gdDmJasr7", extraUrl: "https://walkmeguide.com/en/madeira/trail/11/vereda-dos-balcoes-pr11/", extraLabel: "WalkMe" },
+      { id: "pr17", category: "hike", name: "PR17 Caminho do Pinaculo e Folhadal - Bica da Cana", note: "Hard. Точка поставлена на Bica da Cana, рядом с маршрутом.", lat: 32.7560982, lng: -17.0552695, url: "https://www.alltrails.com/trail/portugal/madeira--2/pr17-caminho-do-pinaculo-e-folhadal", extraUrl: "https://www.alltrails.com/trail/portugal/madeira--2/pr17-caminho-do-pinaculo-e-folhadal", extraLabel: "AllTrails" }
+    ];
+
+    const state = {
+      category: "all",
+      query: ""
+    };
+
+    const map = L.map("map", {
+      zoomControl: true,
+      scrollWheelZoom: true
+    });
+
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    const markerLayer = L.layerGroup().addTo(map);
+    const markers = new Map();
+    const list = document.querySelector("#list");
+    const empty = document.querySelector("#empty");
+    const search = document.querySelector("#search");
+
+    function categoryLabel(key) {
+      return categories[key]?.label || key;
+    }
+
+    function pinIcon(place, index) {
+      return L.divIcon({
+        className: "",
+        html: `<div class="pin ${place.category}"><span>${index + 1}</span></div>`,
+        iconSize: [28, 28],
+        iconAnchor: [14, 28],
+        popupAnchor: [0, -26]
+      });
+    }
+
+    function placeMatches(place) {
+      const inCategory = state.category === "all" || place.category === state.category;
+      const haystack = `${place.name} ${place.note} ${categoryLabel(place.category)}`.toLowerCase();
+      return inCategory && haystack.includes(state.query.trim().toLowerCase());
+    }
+
+    function linkHtml(place) {
+      const links = [`<a href="${place.url}" target="_blank" rel="noopener noreferrer">Открыть</a>`];
+      if (place.extraUrl) {
+        links.push(`<a href="${place.extraUrl}" target="_blank" rel="noopener noreferrer">${place.extraLabel || "Ссылка"}</a>`);
+      }
+      return links.join("");
+    }
+
+    function renderFilters() {
+      const filters = document.querySelector("#filters");
+      filters.innerHTML = Object.entries(categories).map(([key, value]) => {
+        const active = state.category === key ? " active" : "";
+        return `<button class="chip${active}" type="button" data-category="${key}">${value.label}</button>`;
+      }).join("");
+
+      filters.querySelectorAll("button").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.category = button.dataset.category;
+          render();
+        });
+      });
+    }
+
+    function renderStats() {
+      const stats = document.querySelector("#stats");
+      const counts = places.reduce((acc, place) => {
+        acc[place.category] = (acc[place.category] || 0) + 1;
+        return acc;
+      }, {});
+      stats.innerHTML = ["hotel", "food", "beach", "see", "hike"].map((key) => {
+        return `<div class="stat"><strong>${counts[key] || 0}</strong>${categories[key].label}</div>`;
+      }).join("");
+    }
+
+    function renderMarkers(visible) {
+      markerLayer.clearLayers();
+      markers.clear();
+      visible.forEach((place, index) => {
+        const marker = L.marker([place.lat, place.lng], { icon: pinIcon(place, index) })
+          .bindPopup(`
+            <h3 class="popup-title">${place.name}</h3>
+            <p class="popup-note">${place.note}</p>
+            <a class="popup-link" href="${place.url}" target="_blank" rel="noopener noreferrer">Открыть ссылку</a>
+          `);
+        marker.addTo(markerLayer);
+        markers.set(place.id, marker);
+      });
+
+      if (visible.length > 0) {
+        const bounds = L.latLngBounds(visible.map((place) => [place.lat, place.lng]));
+        map.fitBounds(bounds.pad(.12), { maxZoom: 12 });
+      }
+    }
+
+    function selectPlace(place) {
+      const marker = markers.get(place.id);
+      if (!marker) return;
+      map.setView([place.lat, place.lng], Math.max(map.getZoom(), 14), { animate: true });
+      marker.openPopup();
+      document.querySelectorAll(".place").forEach((card) => card.classList.toggle("selected", card.dataset.id === place.id));
+    }
+
+    function renderList(visible) {
+      list.innerHTML = visible.map((place) => `
+        <article class="place" data-id="${place.id}" tabindex="0">
+          <div class="place-top">
+            <h2>${place.name}</h2>
+            <span class="badge ${place.category}">${categories[place.category].short}</span>
+          </div>
+          <p class="note">${place.note}</p>
+          <div class="links">${linkHtml(place)}</div>
+        </article>
+      `).join("");
+
+      list.querySelectorAll(".place").forEach((card) => {
+        const place = places.find((item) => item.id === card.dataset.id);
+        card.addEventListener("click", (event) => {
+          if (event.target.closest("a")) return;
+          selectPlace(place);
+        });
+        card.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            selectPlace(place);
+          }
+        });
+      });
+
+      empty.style.display = visible.length ? "none" : "block";
+    }
+
+    function render() {
+      const visible = places.filter(placeMatches);
+      renderFilters();
+      renderStats();
+      renderMarkers(visible);
+      renderList(visible);
+    }
+
+    search.addEventListener("input", () => {
+      state.query = search.value;
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>
