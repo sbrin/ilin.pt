@@ -10,5 +10,4 @@ summary: "A small interactive Madeira map with hotels, food, beaches, viewpoints
 
 I turned my Madeira notes into a small interactive map: hotels, coffee spots, restaurants, beaches, viewpoints, activities, and hikes.
 
-[Open the full-screen Madeira map](/madeira-map.html)
-
+[Open the full-screen Madeira map](/stuff/madeira-map/)

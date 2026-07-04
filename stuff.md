@@ -10,6 +10,10 @@ permalink: /stuff/
 
 I built Dictant because I wanted instant voice-to-text on macOS without bloated software. Hold right Command, talk, release, and get polished text via Whisper (plus optional ChatGPT cleanup). Open source, no paywall.
 
+### [Madeira Places Map](/stuff/madeira-map/)
+
+An interactive map with hotels, food, beaches, viewpoints, activities, and hikes around Madeira.
+
 
 ### [Audio Snoop: Monitor Input Live Online Web App](/stuff/audio-snoop)
 
