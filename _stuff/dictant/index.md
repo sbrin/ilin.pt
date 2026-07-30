@@ -16,7 +16,7 @@ It uses OpenAI Whisper for transcription, can run an optional ChatGPT cleanup pa
 
 No subscriptions, no paywall. It is free and open source, you only pay for your OpenAI API usage.
 
-Dictant can now also transcribe audio playing on your Mac together with the microphone. You can choose between OpenAI's current transcription models and Whisper, then optionally process the result with ChatGPT using your own prompt—for cleanup, formatting, translation, or other text transformations.
+Dictant can now also transcribe audio playing on your Mac together with the microphone. You can choose between OpenAI's current transcription models and Whisper, then optionally process the result with ChatGPT using your own prompt – for cleanup, formatting, translation, or other text transformations.
 
 ## Highlights
 
