@@ -6,6 +6,10 @@ collectionpage: stuff
 permalink: /stuff/
 ---
 
+### [Vibefullness: a breathing pause for vibe coding](/stuff/vibefullness/)
+
+A Codex and Claude Code plugin that fills your screen with an ambient forest while the agent works, and clears it the moment the answer lands. The point is not the video, the point is the pause.
+
 ### [Madeira Places Map](/stuff/madeira-map/)
 
 An interactive map with hotels, food, beaches, viewpoints, activities, and hikes around Madeira.
