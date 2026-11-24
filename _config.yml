@@ -46,6 +46,7 @@ collections:
 #     values:
 #       layout: post # Default layout
 exclude:
+  - .bb/
   - .sass-cache/
   - .jekyll-cache/
   - gemfiles/
