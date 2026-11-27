@@ -24,6 +24,8 @@ A "Show HN" post on Hacker News is a unique cultural institution within the tech
 
 Success on "Show HN" is measured not just in upvotes or concurrent users, but in the acquisition of a far more valuable currency: credibility. This guide deconstructs the anatomy of successful "Show HN" posts, providing a strategic playbook based on an analysis of what resonates with this unique audience.
 
+If you're deciding between Show HN and launching on X, this [Hacker News vs X launch comparison](https://www.flowjam.com/blog/hacker-news-vs-x-launch) covers when each one fits.
+
 ### **The Unwritten Social Contract of Hacker News**
 
 The Hacker News community operates on a set of deeply ingrained, though often unwritten, values. A foundational understanding of this social contract is a prerequisite for any successful interaction. The platform is a space for "geeks to talk to other geeks," where a high degree of technical literacy is the baseline expectation.
